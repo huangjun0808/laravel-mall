@@ -1,8 +1,8 @@
 <?php
 
-Route::get('login',[
-    'as'=>'admin.login','uses'=>'LoginController@showLoginForm'
-]);
+Route::get('login','LoginController@showLoginForm')->name('admin.login');
+Route::post('login','LoginController@login');
+Route::match(['get','post'],'logout','LoginController@logout');
 
 Route::group(['middleware'=>['auth:admin']], function(){
 

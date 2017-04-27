@@ -3,7 +3,7 @@
         <ul class="sidebar-menu">
             <li class="header">MAIN NAVIGATION</li>
             <li class="treeview">
-                <a href="#">
+                <a href="{{ url('admin') }}">
                     <i class="fa fa-dashboard"></i> <span>主页面板</span>
                 </a>
             </li>

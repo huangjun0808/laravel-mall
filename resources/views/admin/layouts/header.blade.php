@@ -1,6 +1,6 @@
 <header class="main-header">
     <!-- Logo -->
-    <a href="#" class="logo">
+    <a href="{{ url('admin/') }}" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini"><b>A</b>LT</span>
         <!-- logo for regular state and mobile devices -->
@@ -104,16 +104,14 @@
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <img src="{{asset('static/libs/AdminLTE/2.3.11/dist/img/user2-160x160.jpg')}}" class="user-image" alt="User Image">
-                        <span class="hidden-xs">Alexander Pierce</span>
+                        <span class="hidden-xs">{{ auth('admin')->user()->name }}</span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header">
                             <img src="{{asset('static/libs/AdminLTE/2.3.11/dist/img/user2-160x160.jpg')}}" class="img-circle" alt="User Image">
-
                             <p>
-                                Alexander Pierce - Web Developer
-                                <small>Member since Nov. 2012</small>
+                                {{ auth('admin')->user()->name }}
                             </p>
                         </li>
                         <!-- Menu Footer-->
@@ -122,7 +120,7 @@
                                 <a href="#" class="btn btn-default btn-flat">配置</a>
                             </div>
                             <div class="pull-right">
-                                <a href="#" class="btn btn-default btn-flat">退出</a>
+                                <a href="{{ url('admin/logout') }}" class="btn btn-default btn-flat">退出</a>
                             </div>
                         </li>
                     </ul>

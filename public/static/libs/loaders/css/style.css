@@ -1,119 +1,49 @@
 @charset "utf-8";
-/* CSS Document */
-
-/*
-Copyright (c) 2010, Yahoo! Inc. All rights reserved.
-Code licensed under the BSD License:
-http://developer.yahoo.com/yui/license.html
-version: 3.3.0
-build: 3167
-*/
-html{color:#000;background:#ecf0f1;height:100%;}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0;}table{border-collapse:collapse;border-spacing:0;}fieldset,img{border:0;}address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal;}li{list-style:none;}caption,th{text-align:left;}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}q:before,q:after{content:'';}abbr,acronym{border:0;font-variant:normal;}sup{vertical-align:text-top;}sub{vertical-align:text-bottom;}input,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit;}input,textarea,select{*font-size:100%;}legend{color:#000;}
-*{
-	box-sizing:border-box;
-}
-body{
-	min-height:100%;
-}
 #spinners{
-position: absolute;
-top: 50%;
-left: 50%;
+	position: absolute;
+	top: 42%;
+	left: 40%;
 }
-#spinners li{
-	position:absolute;
-	float:left;
-	width:100px;
-	height:50px;
-	top:0px;
-	left:0px;
-	opacity:0;
-	-webkit-transition:all .3s ease-in-out;
-	-webkit-transform:translateX(-100px);
+#loading{
+	/*background-color: #000;*/
+	height: 100%;
+	width: 100%;
+	position: fixed;
+	z-index: 1;
+	margin-top: 0px;
+	top: 0px;
+	/*filter:alpha(opacity=40);*/
+	/*-moz-opacity:0.4;*/
+	/*-khtml-opacity: 0.4;*/
+	/*opacity: 0.2;*/
+	background: rgba(54,127,169,0.2);
+	display: none;
 
-	-moz-transition:all .3s ease-in-out;
-	-moz-transform:translateX(-100px);
-
-	-ms-transition:all .3s ease-in-out;
-	-ms-transform:translateX(-100px);
-
-	transition:all .3s ease-in-out;
-	transform:translateX(-100px);
 }
-.next,.prev{
-	width:50px;
-	font-size: 53px;
-position: absolute;
-top: 50%;
-right: 20px;
-text-decoration: none;
-color: #7f8c8d;
-margin-top: -30px;
--webkit-transition:all .3s ease-in-out;
--moz-transition:all .3s ease-in-out;
--ms-transition:all .3s ease-in-out;
-transition:all .3s ease-in-out;
-}
-.prev{
-	left: 20px;
-}
-.next:hover,.prev:hover{
-	color:#3498db;
-}
-#pagination{
-	width: 140px;
-position: fixed;
-bottom: 20px;
-left: 50%;
-margin-left: -54px;
-}
-#pagination li a{
-	width:18px;
-	height:18px;
-	background:#7F8C8D;
-	float:left;
-	margin-right:5px;
-	border-radius:20px;
-	display:block;
-}
-#pagination li a.pag_active{
-background:#3498DB;
-}
-.clear{
-	clear:both;
-	display:block;
-}
-#spinners li.active{
--webkit-transform:translateX(0);
--moz-transform:translateX(0);
--ms-transform:translateX(0);
-transform:translateX(0);
-opacity:1;
-}
-#spinners li:nth-child(2){
-margin-top: -17px;
-margin-left: -43px;
-}
-#spinners li:nth-child(3){
-margin-top: -14px;
-margin-left: 6px;
-}
-#spinners li:nth-child(3){
-margin-top:-10px;
-}
-#spinners li:nth-child(4){
-margin-left: -22px;
-margin-top: -8px;
-}
-#spinners li:nth-child(5){
-margin-left: 19px;
-margin-top: -10px;
-}
-#spinners li:nth-child(6){
-margin-top: -21px
+#loading-center{
+	width: 100%;
+	height: 100%;
+	position: relative;
 }
 /******************* PRELOADER 1 **********
+
 *******************************************/
+/*
+	<div id="loading" style="display: block;">
+		<div id="loading-center">
+			<div id="spinners">
+				<div id="preloader_1">
+					<span></span>
+					<span></span>
+					<span></span>
+					<span></span>
+					<span></span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+*/
 #preloader_1{
 	position:relative;
 }
@@ -197,8 +127,21 @@ animation-delay: .8s;
 
 /******************* PRELOADER 2 **********
 *******************************************/
+/*
+	<div id="loading" style="display: block;">
+		<div id="loading-center">
+			<div id="spinners">
+				<div id="preloader_2">
+					<span></span>
+					<span></span>
+					<span></span>
+					<span></span>
+				</div>
+			</div>
+		</div>
+	</div>
 
-
+*/
 
 #preloader_2{
 position: relative;
@@ -318,27 +261,25 @@ animation: preloader_2_4 1.5s infinite ease-in-out;
     80% {-ms-transform: translateX(0px) translateY(0px) rotate(360deg); border-radius:0px;}
      100% {-ms-transform: translateX(0px) translateY(0px) rotate(360deg);border-radius:0px;}
 }
-@-keyframes preloader_2_1 {
+@keyframes preloader_2_1 {
     0% {-transform: translateX(0px) translateY(0px)  rotate(0deg); border-radius:0px;}
     50% {-transform: translateX(-20px) translateY(-10px) rotate(-180deg); border-radius:20px;background:#3498db;}
     80% {-transform: translateX(0px) translateY(0px) rotate(-360deg); border-radius:0px;}
      100% {-transform: translateX(0px) translateY(0px) rotate(-360deg); border-radius:0px;}
 }
-@-keyframes preloader_2_2 {
+@keyframes preloader_2_2 {
     0% {-transform: translateX(0px) translateY(0px)  rotate(0deg);border-radius:0px;}
     50% {-transform: translateX(20px) translateY(-10px) rotate(180deg);border-radius:20px;background:#f1c40f;}
     80% {-transform: translateX(0px) translateY(0px) rotate(360deg);border-radius:0px;}
     100% {-transform: translateX(0px) translateY(0px) rotate(360deg);border-radius:0px;}
 }
-@-keyframes preloader_2_3 {
+@keyframes preloader_2_3 {
     0% {-transform: translateX(0px) translateY(0px)  rotate(0deg);border-radius:0px;}
     50% {-transform: translateX(-20px) translateY(10px) rotate(-180deg); border-radius:20px;background:#2ecc71;}
     80% {-transform: translateX(0px) translateY(0px) rotate(-360deg);border-radius:0px;}
      100% {-transform: translateX(0px) translateY(0px) rotate(-360deg); border-radius:0px;}
 }
-
-
-@-keyframes preloader_2_4 {
+@keyframes preloader_2_4 {
     0% {-transform: translateX(0px) translateY(0px)  rotate(0deg); border-radius:0px;}
     50% {-transform: translateX(20px) translateY(10px) rotate(180deg); border-radius:20px;background:#e74c3c;}
     80% {-transform: translateX(0px) translateY(0px) rotate(360deg); border-radius:0px;}
@@ -347,7 +288,15 @@ animation: preloader_2_4 1.5s infinite ease-in-out;
 
 /******************* PRELOADER 3 **********
 *******************************************/
-
+/*
+	<div id="loading" style="display: block;">
+		<div id="loading-center">
+			<div id="spinners">
+				<div id="preloader_3"></div>
+			</div>
+		</div>
+	</div>
+*/
 
 #preloader_3{
 	position:relative;
@@ -403,7 +352,6 @@ animation: preloader_2_4 1.5s infinite ease-in-out;
   	100% {-moz-transform: translateX(0px)}
 }
 
-
 @-ms-keyframes preloader_3_before {
     0% {-ms-transform: translateX(0px) rotate(0deg)}
     50% {-ms-transform: translateX(50px) scale(1.2) rotate(260deg); background:#2ecc71;border-radius:0px;}
@@ -428,7 +376,21 @@ animation: preloader_2_4 1.5s infinite ease-in-out;
 
 /******************* PRELOADER 4 **********
 *******************************************/
-
+/*
+	<div id="loading" style="display: block;">
+		<div id="loading-center">
+			<div id="spinners">
+				<div id="preloader_4">
+					<span></span>
+					<span></span>
+					<span></span>
+					<span></span>
+					<span></span>
+				</div>
+			</div>
+		</div>
+	</div>
+*/
 
 #preloader_4{
 	position:relative;
@@ -499,8 +461,16 @@ border-radius:20px;
 
 /******************* PRELOADER 5 **********
 *******************************************/
-
-#preloader5{
+/*
+	<div id="loading" style="display: block;">
+		<div id="loading-center">
+			<div id="spinners">
+				<div id="preloader_5"></div>
+			</div>
+		</div>
+	</div>
+*/
+#preloader_5{
 	position:relative;
 	width:30px;
 	height:30px;
@@ -511,7 +481,7 @@ border-radius:20px;
 	-ms-animation: preloader_5 1.5s infinite linear;
 	animation: preloader_5 1.5s infinite linear;
 }
-#preloader5:after{
+#preloader_5:after{
 	position:absolute;
 	width:50px;
 	height:50px;
@@ -520,6 +490,7 @@ border-radius:20px;
 	border-left:10px solid transparent;
 	border-right:10px solid transparent;
 	border-radius:50px;
+	box-sizing: content-box;
 	content:'';
 	top:-20px;
 	left:-20px;
@@ -578,7 +549,21 @@ border-radius:20px;
 
 /******************* PRELOADER 6 **********
 *******************************************/
-#preloader6{
+/*
+	<div id="loading" style="display: block;">
+		<div id="loading-center">
+			<div id="spinners">
+				<div id="preloader_6">
+					<span></span>
+					<span></span>
+					<span></span>
+					<span></span>
+				</div>
+			</div>
+		</div>
+	</div>
+*/
+#preloader_6{
 	position:relative;
 	width: 42px;
 	height: 42px;
@@ -587,7 +572,7 @@ border-radius:20px;
 	-ms-animation: preloader_6 5s infinite linear;
 	animation: preloader_6 5s infinite linear;
 }
-#preloader6 span{
+#preloader_6 span{
 	width:20px;
 	height:20px;
 	position:absolute;
@@ -598,11 +583,11 @@ border-radius:20px;
 	-ms-animation: preloader_6_span 1s infinite linear;
 	animation: preloader_6_span 1s infinite linear;
 }
-#preloader6 span:nth-child(1){
+#preloader_6 span:nth-child(1){
 background:#2ecc71;
 
 }
-#preloader6 span:nth-child(2){
+#preloader_6 span:nth-child(2){
 left:22px;
 background:#9b59b6;
 	-webkit-animation-delay: .2s;
@@ -611,7 +596,7 @@ background:#9b59b6;
 	animation-delay: .2s;
 
 }
-#preloader6 span:nth-child(3){
+#preloader_6 span:nth-child(3){
 top:22px;
 background:#3498db;
 	-webkit-animation-delay: .4s;
@@ -619,7 +604,7 @@ background:#3498db;
 	-ms-animation-delay: .4s;
 	animation-delay: .4s;
 }
-#preloader6 span:nth-child(4){
+#preloader_6 span:nth-child(4){
 top:22px;
 left:22px;
 background:#f1c40f;

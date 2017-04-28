@@ -12,6 +12,7 @@
     <link href="{{asset('static/libs/ionicons/2.0.1/css/ionicons.min.css')}}" rel="stylesheet">
     <link href="{{asset('static/libs/AdminLTE/2.3.11/dist/css/AdminLTE.min.css')}}" rel="stylesheet">
     <link href="{{asset('static/libs/AdminLTE/2.3.11/dist/css/skins/_all-skins.min.css')}}" rel="stylesheet">
+    <link href="{{asset('static/libs/loaders/css/style.css')}}" rel="stylesheet">
     @section('link')
     @show
 </head>
@@ -24,6 +25,7 @@
         @include('admin.layouts.sidebar')
         <!-- 内容区 -->
         <div class="content-wrapper">
+            @include('admin.layouts.loading')
             <!-- Content Header (Page header) -->
             @yield('content-header')
             <!-- Main content -->

@@ -11,8 +11,9 @@
     <link href="{{asset('static/libs/font-awesome/4.7.0/css/font-awesome.min.css')}}" rel="stylesheet">
     <link href="{{asset('static/libs/ionicons/2.0.1/css/ionicons.min.css')}}" rel="stylesheet">
     <link href="{{asset('static/libs/AdminLTE/2.3.11/dist/css/AdminLTE.min.css')}}" rel="stylesheet">
-    <link href="{{asset('static/libs/AdminLTE/2.3.11/dist/css/skins/_all-skins.min.css')}}" rel="stylesheet">
+    <link href="{{asset('static/libs/AdminLTE/2.3.11/dist/css/skins/skin-blue.min.css')}}" rel="stylesheet">
     <link href="{{asset('static/libs/loaders/css/style.css')}}" rel="stylesheet">
+    <link href="{{asset('static/css/admin.css')}}" rel="stylesheet">
     @section('link')
     @show
 </head>
@@ -41,7 +42,9 @@
     <script src="{{asset('static/libs/AdminLTE/2.3.11/dist/js/app.min.js')}}"></script>
     <script src="{{asset('static/libs/AdminLTE/2.3.11/plugins/slimScroll/jquery.slimscroll.min.js')}}"></script>
     <script src="{{asset('static/libs/AdminLTE/2.3.11/plugins/fastclick/fastclick.js')}}"></script>
-    @section('script')
-    @show
+    <script src="{{asset('static/js/admin.js')}}"></script>
+    @yield('script_src')
+    @yield('script')
+
 </body>
 </html>

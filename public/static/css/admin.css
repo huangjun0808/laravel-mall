@@ -1,0 +1,9 @@
+.content-header{
+    min-height: 40px;
+}
+.row-top{
+    margin-top: 8px;
+}
+.row-office-top{
+    margin-top: -8px;
+}

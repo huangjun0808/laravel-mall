@@ -4,10 +4,10 @@
             <li class="header">MAIN NAVIGATION</li>
             <li class="treeview">
                 <a href="{{ url('admin') }}">
-                    <i class="fa fa-dashboard"></i> <span>主页面板</span>
+                    <i class="fa fa-dashboard"></i> <span>首页面板</span>
                 </a>
             </li>
-            <li class="treeview">
+            <li class="treeview active">
                 <a href="#">
                     <i class="fa fa-group"></i>
                     <span>权限管理</span>
@@ -16,7 +16,7 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="top-nav.html"><i class="fa fa-circle-o"></i>用户列表</a></li>
+                    <li><a href="{{ url('admin/user') }}"><i class="fa fa-circle-o"></i>用户列表</a></li>
                     <li><a href="boxed.html"><i class="fa fa-circle-o"></i>角色列表</a></li>
                     <li><a href="../layout/fixed.html"><i class="fa fa-circle-o"></i>权限列表</a></li>
                 </ul>

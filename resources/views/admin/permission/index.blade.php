@@ -25,14 +25,27 @@
     <section class="content">
         <div class="row" style="padding: 10px 0;">
             <div class="col-xs-6 col-sm-6">
+                @if($cid != 0)
+                    <a href="{{ url('admin/permission') }}" class="btn btn-warning btn-sm"><i class="fa fa-reply-all"></i> 返回上级</a>
+                @endif
             </div>
             <div class="col-xs-6 col-sm-6 text-right">
-                <a href="{{ url('admin/permission/create') }}" class="btn btn-success btn-sm"><i class="fa fa-plus-circle"></i> 添加权限</a>
+                @if($cid != 0)
+                    <a href="{{ url('admin/permission') .'/'. $cid .'/create'}}" class="btn btn-success btn-sm"><i class="fa fa-plus-circle"></i> 添加子权限</a>
+                @else
+                    <a href="{{ url('admin/permission/create') }}" class="btn btn-success btn-sm"><i class="fa fa-plus-circle"></i> 添加权限</a>
+                @endif
             </div>
         </div>
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title">权限列表</h3>
+                <h3 class="box-title">
+                    @if($cid != 0)
+                        {{ $permission['label'] }}
+                    @else
+                        权限列表
+                    @endif
+                </h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -61,6 +74,8 @@
 
 @section('script')
     <script>
+        //搜索关键字
+        var _search_value = '';
         // 默认设置
         $.extend( $.fn.dataTable.defaults, {
             searching: true,
@@ -82,6 +97,9 @@
                     "type": 'post',
                     "headers": {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    'data': function (d) {
+                        d.cid = "{{ $cid }}";
                     }
                 },
                 "columns": [
@@ -98,6 +116,10 @@
                         "targets": -1,
                         "render": function (data, type, row, meta) {
                             var str = '';
+                            //下级菜单
+                            if(row['cid']==0){
+                                str += '<a href="{{ url('admin/permission') }}' + '/' + row['id'] + '" class="text-success btn-xs"><i class="fa fa-angle-double-down"></i> 下级菜单</a>';
+                            }
                             //编辑
                             str += '<a href="{{ url('admin/permission') }}' + '/' + row['id'] + '/edit" class="text-success btn-xs"><i class="fa fa-edit"></i> 编辑</a>';
                             //删除
@@ -107,28 +129,23 @@
                     }
                 ]
             });
-            //自定义搜索框
-
             //ajax事件-当datatable发出ajax请求前
             table.on('preXhr.dt', function (e, settings, data) {
                 loadShow();
-                console.log('preXhr');
+                _search_value = data.search.value;
             });
             //重绘事件-当表格重绘完成后
             table.on('draw.dt', function () {
                 loadFadeOut();
-                $("#search").html('<div class="form-horizontal"><div class="row"> <div class="col-sm-12 text-right"> <div class="input-group"> <label class="sr-only">搜索</label> <input type="text" class="form-control input-sm" name="search" placeholder="请输入用户名或邮箱"> <span class="input-group-btn"> <button class="btn btn-default btn-sm" type="button" id="searchBtn"><i class="fa fa-search"></i> 搜索</button> </span> </div> </div> </div> </div>');
-
+                $("#search").html('<div class="form-horizontal"><div class="row"> <div class="col-sm-12 text-right"> <div class="input-group"> <label class="sr-only">搜索</label> <input type="text" class="form-control input-sm" name="search" value="' + _search_value + '" placeholder="输入权限规则或名称"> <span class="input-group-btn"> <button class="btn btn-default btn-sm" type="button" id="searchBtn"><i class="fa fa-search"></i> 搜索</button> </span> </div> </div> </div> </div>');
             });
-
+            //搜索
             $(document).on('click', '#searchBtn', function () {
                 var _value = $.trim($("input[name='search']").val());
                 if(_value){
                     table.search(_value).draw();
                 }
-
             });
-
             $(document).keydown(function () {
                 if(event.keyCode === 13){
                     $("#searchBtn").click();

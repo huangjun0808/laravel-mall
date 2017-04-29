@@ -19,6 +19,7 @@ class PermissionController extends Controller
      */
     public function index(Request $request, $cid = 0)
     {
+        $permission = Permission::find($cid);
         if($request->ajax()){
             $data = array();
             $data['draw'] = $request->get('draw');
@@ -27,13 +28,14 @@ class PermissionController extends Controller
             $order = $request->get('order');
             $columns = $request->get('columns');
             $search = $request->get('search');
-            $data['recordsTotal'] = Permission::count();
+            $cid = $request->input('cid', 0);
+            $data['recordsTotal'] = Permission::where('cid',$cid)->count();
             if (strlen($search['value']) > 0) {
-                $data['recordsFiltered'] = Permission::where(function ($query) use ($search) {
+                $data['recordsFiltered'] = Permission::where('cid',$cid)->where(function ($query) use ($search) {
                     $query->where('name', 'LIKE', '%' . $search['value'] . '%')
                         ->orWhere('label', 'like', '%' . $search['value'] . '%');
                 })->count();
-                $data['data'] = Permission::where(function ($query) use ($search) {
+                $data['data'] = Permission::where('cid',$cid)->where(function ($query) use ($search) {
                     $query->where('name', 'LIKE', '%' . $search['value'] . '%')
                         ->orWhere('label', 'like', '%' . $search['value'] . '%');
                 })
@@ -41,36 +43,52 @@ class PermissionController extends Controller
                     ->orderBy($columns[$order[0]['column']]['data'], $order[0]['dir'])
                     ->get();
             } else {
-                $data['recordsFiltered'] = Permission::count();
-                $data['data'] = Permission::skip($start)->take($length)
+                $data['recordsFiltered'] = Permission::where('cid',$cid)->count();
+                $data['data'] = Permission::where('cid',$cid)->skip($start)->take($length)
                     ->orderBy($columns[$order[0]['column']]['data'], $order[0]['dir'])
                     ->get();
             }
             return response()->json($data);
         }
-        return view('admin.permission.index');
+        return view('admin.permission.index',['cid'=>$cid,'permission'=>$permission]);
     }
 
     /**
      * Show the form for creating a new resource.
      *
+     * @param int $cid
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($cid = 0)
     {
-        //
-        return 'create';
+        $data = [];
+        $data['cid'] = $cid;
+        $data['permission'] = null;
+        return view('admin.permission.create',$data);
+
+//        dd(old('permission'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Requests\AdminPermissionCreateRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Requests\AdminPermissionCreateRequest $request)
     {
-        //
+        $data = $request->input('permission');
+        try{
+            $permission = Permission::create($data);
+            if($permission->cid){
+                $redirect_url = 'admin/permission/'.$permission->cid;
+            }else{
+                $redirect_url = 'admin/permission/';
+            }
+            return redirect($redirect_url)->with('success','添加成功!');
+        }catch(\Exception $e){
+            return redirect()->back();
+        }
     }
 
     /**
@@ -93,19 +111,40 @@ class PermissionController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = [];
+        $permission = Permission::find($id);
+        if(!$permission){
+            abort(404);
+        }
+        $data['id'] = $id;
+        $data['permission'] = $permission;
+        return view('admin.permission.edit',$data);
+
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Requests\AdminPermissionUpdateRequest $request, $id)
     {
-        //
+        $data = $request->input('permission');
+        $permission = Permission::find($id);
+        try{
+            $permission->update($data);
+            if($permission->cid){
+                $redirect_url = 'admin/permission/'.$permission->cid;
+            }else{
+                $redirect_url = 'admin/permission/';
+            }
+            return redirect($redirect_url)->with('success','更新成功!');
+        }catch(\Exception $e){
+            return redirect()->back();
+        }
+
     }
 
     /**

@@ -77,6 +77,7 @@
                 "scrollX": true,
                 "autoWidth": true,
                 "order": [[0, "asc"]],
+                "stateSave": true,
                 "serverSide": true,
                 "ajax": {
                     "url": '{{ url('admin/role/index') }}',

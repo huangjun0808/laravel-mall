@@ -18,7 +18,7 @@
                 <ul class="treeview-menu">
                     <li><a href="{{ url('admin/user') }}"><i class="fa fa-circle-o"></i>用户列表</a></li>
                     <li><a href="boxed.html"><i class="fa fa-circle-o"></i>角色列表</a></li>
-                    <li><a href="../layout/fixed.html"><i class="fa fa-circle-o"></i>权限列表</a></li>
+                    <li><a href="{{ url('admin/permission') }}"><i class="fa fa-circle-o"></i>权限列表</a></li>
                 </ul>
             </li>
         </ul>

@@ -1,6 +1,6 @@
 @extends('admin.layouts.base')
 
-@section('title','用户列表')
+@section('title','权限列表')
 
 @section('link')
     <link href="{{asset('static/libs/AdminLTE/2.3.11/plugins/datatables/dataTables.bootstrap.css')}}" rel="stylesheet">
@@ -16,7 +16,7 @@
         <ol class="breadcrumb">
             <li><a href="{{ url('admin') }}"><i class="fa fa-dashboard"></i> 首页</a></li>
             <li><a href="javascript:">权限管理</a></li>
-            <li class="active">用户列表</li>
+            <li class="active">权限列表</li>
         </ol>
     </section>
 @endsection
@@ -27,12 +27,12 @@
             <div class="col-xs-6 col-sm-6">
             </div>
             <div class="col-xs-6 col-sm-6 text-right">
-                <a href="{{ url('admin/user/create') }}" class="btn btn-success btn-sm"><i class="fa fa-plus-circle"></i> 添加用户</a>
+                <a href="{{ url('admin/permission/create') }}" class="btn btn-success btn-sm"><i class="fa fa-plus-circle"></i> 添加权限</a>
             </div>
         </div>
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title">用户列表</h3>
+                <h3 class="box-title">权限列表</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -40,9 +40,11 @@
                     <thead>
                     <tr>
                         <th>ID</th>
-                        <th>用户名</th>
-                        <th>邮箱</th>
+                        <th>权限规则</th>
+                        <th>权限名称</th>
+                        <th>权限概述</th>
                         <th>创建日期</th>
+                        <th>修改日期</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -76,7 +78,7 @@
                 "order": [[0, "asc"]],
                 "serverSide": true,
                 "ajax": {
-                    "url": '{{ url('admin/user/index') }}',
+                    "url": '{{ url('admin/permission/index') }}',
                     "type": 'post',
                     "headers": {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -85,8 +87,10 @@
                 "columns": [
                     {"data": "id"},
                     {"data": "name"},
-                    {"data": "email"},
+                    {"data": "label"},
+                    {"data": "description"},
                     {"data": "created_at"},
+                    {"data": "updated_at"},
                     {"data": "action", "orderable":false, "searchable": false}
                 ],
                 "columnDefs": [
@@ -95,7 +99,7 @@
                         "render": function (data, type, row, meta) {
                             var str = '';
                             //编辑
-                            str += '<a href="{{ url('admin/user') }}' + '/' + row['id'] + '/edit" class="text-success btn-xs"><i class="fa fa-edit"></i> 编辑</a>';
+                            str += '<a href="{{ url('admin/permission') }}' + '/' + row['id'] + '/edit" class="text-success btn-xs"><i class="fa fa-edit"></i> 编辑</a>';
                             //删除
                             str += '<a href="#" class="text-danger btn-xs"><i class="fa fa-times-circle"></i> 删除</a>';
                             return str;
@@ -113,16 +117,10 @@
             //重绘事件-当表格重绘完成后
             table.on('draw.dt', function () {
                 loadFadeOut();
-                console.log('draw');
                 $("#search").html('<div class="form-horizontal"><div class="row"> <div class="col-sm-12 text-right"> <div class="input-group"> <label class="sr-only">搜索</label> <input type="text" class="form-control input-sm" name="search" placeholder="请输入用户名或邮箱"> <span class="input-group-btn"> <button class="btn btn-default btn-sm" type="button" id="searchBtn"><i class="fa fa-search"></i> 搜索</button> </span> </div> </div> </div> </div>');
 
             });
-            table.on('length.dt', function (e, settings, len) {
-                console.log('length');
-                console.log(settings);
-                console.log(len);
-            });
-            
+
             $(document).on('click', '#searchBtn', function () {
                 var _value = $.trim($("input[name='search']").val());
                 if(_value){
@@ -130,7 +128,7 @@
                 }
 
             });
-            
+
             $(document).keydown(function () {
                 if(event.keyCode === 13){
                     $("#searchBtn").click();

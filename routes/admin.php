@@ -19,6 +19,18 @@ Route::group(['middleware'=>['auth:admin']], function(){
         'update'=>'admin.user.update',
         'destroy'=>'admin.user.destroy',
     ]]);
-
+    //权限管理路由
+    Route::match(['get','post'],'permission/index', ['as' => 'admin.permission.index', 'uses' => 'PermissionController@index']);
+    Route::get('permission/{cid}/parent',['uses' => 'PermissionController@index'])->where('cid','[0-9]+');
+    Route::get('permission/{cid}/create',['uses' => 'PermissionController@create'])->where('cid','[0-9]+');
+    Route::resource('permission','PermissionController', ['names'=>[
+        'index'=>'admin.permission.index',
+        'create'=>'admin.permission.create',
+        'store'=>'admin.permission.store',
+        'show'=>'admin.permission.show',
+        'edit'=>'admin.permission.edit',
+        'update'=>'admin.permission.update',
+        'destroy'=>'admin.permission.destroy',
+    ]]);
 
 });

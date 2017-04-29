@@ -15,11 +15,11 @@ class CreateAdminPermissionsTable extends Migration
     {
         Schema::create('admin_permission', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->comment('权限名');
-            $table->string('label')->comment('权限解释名称');
-            $table->string('description')->comment('描述与备注');
-            $table->tinyInteger('cid')->comment('级别');
-            $table->string('icon')->comment('图标');
+            $table->string('name')->default('')->comment('权限名');
+            $table->string('label')->default('')->comment('权限解释名称');
+            $table->string('description')->default('')->comment('描述与备注');
+            $table->tinyInteger('cid')->default(0)->comment('级别');
+            $table->string('icon')->default('')->comment('图标');
             $table->timestamps();
         });
 

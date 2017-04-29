@@ -32,5 +32,15 @@ Route::group(['middleware'=>['auth:admin']], function(){
         'update'=>'admin.permission.update',
         'destroy'=>'admin.permission.destroy',
     ]]);
-
+    //角色管理路由
+    Route::match(['get','post'],'role/index', ['as' => 'admin.role.index', 'uses' => 'RoleController@index']);
+    Route::resource('role','RoleController', ['names'=>[
+        'index'=>'admin.role.index',
+        'create'=>'admin.role.create',
+        'store'=>'admin.role.store',
+        'show'=>'admin.role.show',
+        'edit'=>'admin.role.edit',
+        'update'=>'admin.role.update',
+        'destroy'=>'admin.role.destroy',
+    ]]);
 });

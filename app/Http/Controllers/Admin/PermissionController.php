@@ -19,37 +19,36 @@ class PermissionController extends Controller
      */
     public function index(Request $request, $cid = 0)
     {
-        return $cid;
-//        if($request->ajax()){
-//            $data = array();
-//            $data['draw'] = $request->get('draw');
-//            $start = $request->get('start');
-//            $length = $request->get('length');
-//            $order = $request->get('order');
-//            $columns = $request->get('columns');
-//            $search = $request->get('search');
-//            $data['recordsTotal'] = Permission::count();
-//            if (strlen($search['value']) > 0) {
-//                $data['recordsFiltered'] = Permission::where(function ($query) use ($search) {
-//                    $query->where('name', 'LIKE', '%' . $search['value'] . '%')
-//                        ->orWhere('label', 'like', '%' . $search['value'] . '%');
-//                })->count();
-//                $data['data'] = Permission::where(function ($query) use ($search) {
-//                    $query->where('name', 'LIKE', '%' . $search['value'] . '%')
-//                        ->orWhere('label', 'like', '%' . $search['value'] . '%');
-//                })
-//                    ->skip($start)->take($length)
-//                    ->orderBy($columns[$order[0]['column']]['data'], $order[0]['dir'])
-//                    ->get();
-//            } else {
-//                $data['recordsFiltered'] = Permission::count();
-//                $data['data'] = Permission::skip($start)->take($length)
-//                    ->orderBy($columns[$order[0]['column']]['data'], $order[0]['dir'])
-//                    ->get();
-//            }
-//            return response()->json($data);
-//        }
-//        return view('admin.permission.index');
+        if($request->ajax()){
+            $data = array();
+            $data['draw'] = $request->get('draw');
+            $start = $request->get('start');
+            $length = $request->get('length');
+            $order = $request->get('order');
+            $columns = $request->get('columns');
+            $search = $request->get('search');
+            $data['recordsTotal'] = Permission::count();
+            if (strlen($search['value']) > 0) {
+                $data['recordsFiltered'] = Permission::where(function ($query) use ($search) {
+                    $query->where('name', 'LIKE', '%' . $search['value'] . '%')
+                        ->orWhere('label', 'like', '%' . $search['value'] . '%');
+                })->count();
+                $data['data'] = Permission::where(function ($query) use ($search) {
+                    $query->where('name', 'LIKE', '%' . $search['value'] . '%')
+                        ->orWhere('label', 'like', '%' . $search['value'] . '%');
+                })
+                    ->skip($start)->take($length)
+                    ->orderBy($columns[$order[0]['column']]['data'], $order[0]['dir'])
+                    ->get();
+            } else {
+                $data['recordsFiltered'] = Permission::count();
+                $data['data'] = Permission::skip($start)->take($length)
+                    ->orderBy($columns[$order[0]['column']]['data'], $order[0]['dir'])
+                    ->get();
+            }
+            return response()->json($data);
+        }
+        return view('admin.permission.index');
     }
 
     /**

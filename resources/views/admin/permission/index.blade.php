@@ -12,7 +12,8 @@
 
 @section('content-header')
     <section class="content-header">
-        <h1></h1>
+        <h1>
+        </h1>
         <ol class="breadcrumb">
             <li><a href="{{ url('admin') }}"><i class="fa fa-dashboard"></i> 首页</a></li>
             <li><a href="javascript:">权限管理</a></li>
@@ -37,6 +38,7 @@
                 @endif
             </div>
         </div>
+        @include('admin.common.message')
         <div class="box box-primary">
             <div class="box-header with-border">
                 <h3 class="box-title">

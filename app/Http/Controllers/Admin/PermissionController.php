@@ -85,7 +85,7 @@ class PermissionController extends Controller
             }else{
                 $redirect_url = 'admin/permission/';
             }
-            return redirect($redirect_url)->with('success','添加成功!');
+            return redirect($redirect_url)->with('success','添加成功 !');
         }catch(\Exception $e){
             return redirect()->back();
         }
@@ -140,7 +140,7 @@ class PermissionController extends Controller
             }else{
                 $redirect_url = 'admin/permission/';
             }
-            return redirect($redirect_url)->with('success','更新成功!');
+            return redirect($redirect_url)->with('success','更新成功 !');
         }catch(\Exception $e){
             return redirect()->back();
         }

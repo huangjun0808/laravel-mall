@@ -36,12 +36,13 @@ Route::group(['middleware' => ['auth:admin']], function () {
     ]);
     //角色管理路由
     Route::match(['get', 'post'], 'role/index', ['as' => 'admin.role.index', 'uses' => 'RoleController@index']);
-    Route::resource('role', 'RoleController', ['names' => [
+    Route::get('role/{id}/edit', ['as'=>'admin.role.edit','uses' => 'RoleController@edit'])->where('id', '[0-9]+');
+    Route::resource('role', 'RoleController', [
+        'except' => ['show','edit'],
+        'names' => [
         'index' => 'admin.role.index',
         'create' => 'admin.role.create',
         'store' => 'admin.role.store',
-        'show' => 'admin.role.show',
-        'edit' => 'admin.role.edit',
         'update' => 'admin.role.update',
         'destroy' => 'admin.role.destroy',
     ]]);

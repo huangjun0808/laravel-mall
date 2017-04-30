@@ -55,8 +55,9 @@ class RoleController extends Controller
      */
     public function create()
     {
-        //
-        return 'create';
+        $data = [];
+        $data['role'] = null;
+        return view('admin.role.create',$data);
     }
 
     /**
@@ -68,6 +69,8 @@ class RoleController extends Controller
     public function store(Request $request)
     {
         //
+
+        return 'store';
     }
 
     /**

@@ -12,10 +12,11 @@ class AdminUserTableSeeder extends Seeder
     public function run()
     {
         DB::table('admin_user')->insert([
-            'name'=>'管理员',
-            'email'=>'admin@admin.com',
-            'password'=>bcrypt('admin123456'),
+            'name'=>'超级管理员',
+            'email'=>'root@admin.com',
+            'password'=>bcrypt('root123456'),
             'created_at'=>date('Y-m-d H:i:s',time()),
+            'updated_at'=>date('Y-m-d H:i:s',time()),
         ]);
     }
 }

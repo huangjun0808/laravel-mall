@@ -87,7 +87,7 @@ class PermissionController extends Controller
             }
             return redirect($redirect_url)->with('success','添加成功 !');
         }catch(\Exception $e){
-            return redirect()->back();
+            return redirect()->back()->with('error','系统出错,添加失败 !');
         }
     }
 
@@ -142,7 +142,7 @@ class PermissionController extends Controller
             }
             return redirect($redirect_url)->with('success','更新成功 !');
         }catch(\Exception $e){
-            return redirect()->back();
+            return redirect()->back()->with('error','系统出错,更新失败 !');
         }
 
     }

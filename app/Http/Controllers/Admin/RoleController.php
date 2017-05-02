@@ -89,7 +89,7 @@ class RoleController extends Controller
             return redirect('admin/role')->with('success','添加成功 !');
         }catch(\Exception $e){
             DB::rollback();
-            return redirect()->back()->with('error','系统有误,添加失败');
+            return redirect()->back()->with('error','系统出错,添加失败');
         }
 
     }
@@ -152,10 +152,10 @@ class RoleController extends Controller
             $role->permissions()->detach();
             $role->permissions()->sync($permissions);
             DB::commit();
-            return redirect('admin/role')->with('success','保存成功 !');
+            return redirect('admin/role')->with('success','更新成功 !');
         }catch(\Exception $e){
             DB::rollback();
-            return redirect()->back()->with('error','系统有误,保存失败');
+            return redirect()->back()->with('error','系统出错,更新失败');
         }
     }
 

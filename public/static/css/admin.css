@@ -10,9 +10,17 @@
 .require-star-red{
     color: red;
 }
+
 #permission-list-group .checkbox-inline+.checkbox-inline{
+     margin-left: 0;
+ }
+#permission-list-group .checkbox-inline{
+    margin-right: 10px;
+}
+
+#role-list-group .checkbox-inline+.checkbox-inline{
     margin-left: 0;
 }
-#permission-list-group .checkbox-inline{
+#role-list-group .checkbox-inline{
     margin-right: 10px;
 }

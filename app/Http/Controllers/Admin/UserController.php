@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\AdminRole as Role;
 use Illuminate\Http\Request;
 use App\Models\AdminUser as User;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -58,22 +60,34 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
-        return view('admin.user.create');
-
+        $data = [];
+        $roles = Role::all()->toArray();
+        $data['roles'] = $roles;
+        return view('admin.user.create', $data);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Requests\AdminUserCreateRequest $request)
     {
-        //
-        return 'store';
-
+        $data = $request->input('user');
+        $roles = $request->input('role',[]);
+        $data['password'] = bcrypt($data['password']);
+        unset($data['password_confirmation']);
+        DB::beginTransaction();
+        try{
+            $user = User::create($data);
+            $user->roles()->sync($roles);
+            DB::commit();
+            return redirect('admin/user')->with('success','添加成功 !');
+        }catch(\Exception $e){
+            DB::rollback();
+            return redirect()->back()->with('error','系统出错,添加失败');
+        }
     }
 
     /**
@@ -97,22 +111,49 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
-        return view('admin.user.edit');
-
+        $data = [];
+        $user = User::find($id);
+        if(!$user){
+            abort(404);
+        }
+        $data['user'] = $user->toArray();
+        $data['roles'] = Role::all()->toArray();
+        $user_roles = $user->roles->toArray();
+        foreach($user_roles as $user_role){
+            $data['user_roles'][] = $user_role['id'];
+        }
+        return view('admin.user.edit', $data);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Requests\AdminUserUpdateRequest $request, $id)
     {
-        //
-        return 'update';
+        $data = $request->input('user');
+        $roles = $request->input('role',[]);
+        $user = User::find($id);
+        DB::beginTransaction();
+        try{
+            if($data['password'] && $data['password_confirmation']){
+                $data['password'] = bcrypt($data['password']);
+                unset($data['password_confirmation']);
+                $user->update($data);
+            }
+            if($id != 1){
+                $user->roles()->detach();
+                $user->roles()->sync($roles);
+            }
+            DB::commit();
+            return redirect('admin/user')->with('success','更新成功 !');
+        }catch(\Exception $e){
+            DB::rollback();
+            return redirect()->back()->with('error','系统出错,更新失败 !');
+        }
 
     }
 

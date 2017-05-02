@@ -10,19 +10,21 @@ Route::group(['middleware' => ['auth:admin']], function () {
 
     //用户管理路由
     Route::match(['get', 'post'], 'user/index', ['as' => 'admin.user.index', 'uses' => 'UserController@index']);  //用户管理
-    Route::resource('user', 'UserController', ['names' => [
-        'index' => 'admin.user.index',
-        'create' => 'admin.user.create',
-        'store' => 'admin.user.store',
-        'show' => 'admin.user.show',
-        'edit' => 'admin.user.edit',
-        'update' => 'admin.user.update',
-        'destroy' => 'admin.user.destroy',
-    ]]);
+    Route::get('user/{id}/edit', ['as'=>'admin.user.edit','uses' => 'UserController@edit'])->where('id', '[0-9]+');
+    Route::resource('user', 'UserController', [
+        'except'=>['show','edit'],
+        'names' => [
+            'index' => 'admin.user.index',
+            'create' => 'admin.user.create',
+            'store' => 'admin.user.store',
+            'update' => 'admin.user.update',
+            'destroy' => 'admin.user.destroy',
+        ]
+    ]);
     //权限管理路由
     Route::match(['get', 'post'], 'permission/index', ['as' => 'admin.permission.index', 'uses' => 'PermissionController@index']);
     Route::get('permission/{cid?}', ['uses' => 'PermissionController@index'])->where('cid', '[0-9]+');
-    Route::get('permission/{cid}/create', ['uses' => 'PermissionController@create'])->where('cid', '[0-9]+');
+    Route::get('permission/{cid}/create', ['as'=>'admin.permission.create','uses' => 'PermissionController@create'])->where('cid', '[0-9]+');
     Route::get('permission/{id}/edit', ['as'=>'admin.permission.edit','uses' => 'PermissionController@edit'])->where('id', '[0-9]+');
     Route::resource('permission', 'PermissionController', [
         'except' => ['show','edit'],

@@ -15,4 +15,9 @@ class AdminUser extends Authenticatable
 
     protected $hidden = ['password', 'remember_token'];
 
+
+    public function roles(){
+        return $this->belongsToMany('App\Models\AdminRole','admin_user_role','user_id','role_id');
+    }
+
 }

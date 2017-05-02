@@ -30,6 +30,9 @@
                 <a href="{{ url('admin/user/create') }}" class="btn btn-success btn-sm"><i class="fa fa-plus-circle"></i> 添加用户</a>
             </div>
         </div>
+        <div class="message">
+            @include('admin.common.message')
+        </div>
         <div class="box box-primary">
             <div class="box-header with-border">
                 <h3 class="box-title">用户列表</h3>
@@ -97,7 +100,9 @@
                             //编辑
                             str += '<a href="{{ url('admin/user') }}' + '/' + row['id'] + '/edit" class="text-success btn-xs"><i class="fa fa-edit"></i> 编辑</a>';
                             //删除
-                            str += '<a href="#" class="text-danger btn-xs"><i class="fa fa-times-circle"></i> 删除</a>';
+                            if(row['id'] != 1){
+                                str += '<a href="#" class="text-danger btn-xs"><i class="fa fa-times-circle"></i> 删除</a>';
+                            }
                             return str;
                         }
                     }

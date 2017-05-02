@@ -43,8 +43,7 @@
     <script src="{{asset('static/libs/AdminLTE/2.3.11/plugins/slimScroll/jquery.slimscroll.min.js')}}"></script>
     <script src="{{asset('static/libs/AdminLTE/2.3.11/plugins/fastclick/fastclick.js')}}"></script>
     <script src="{{asset('static/js/admin.js')}}"></script>
-    @yield('script_src')
     @yield('script')
-
+    @yield('script_desc')
 </body>
 </html>

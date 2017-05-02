@@ -5,7 +5,7 @@
 @section('link')
     <link href="{{asset('static/libs/AdminLTE/2.3.11/plugins/datatables/dataTables.bootstrap.css')}}" rel="stylesheet">
 @endsection
-@section('script_src')
+@section('script')
     <script src="{{asset('static/libs/AdminLTE/2.3.11/plugins/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('static/libs/AdminLTE/2.3.11/plugins/datatables/dataTables.bootstrap.min.js')}}"></script>
 @endsection
@@ -74,7 +74,7 @@
     </section>
 @endsection
 
-@section('script')
+@section('script_desc')
     <script>
         //搜索关键字
         var _search_value = '';

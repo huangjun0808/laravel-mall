@@ -80,6 +80,7 @@
                 "scrollX": true,
                 "autoWidth": true,
                 "order": [[0, "asc"]],
+                "lengthMenu": [ 50, 100, 150, 200 ],
                 "serverSide": true,
                 "ajax": {
                     "url": '{{ url('admin/role/index') }}',

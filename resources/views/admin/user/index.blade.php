@@ -46,6 +46,7 @@
                         <th>用户名</th>
                         <th>邮箱</th>
                         <th>创建日期</th>
+                        <th>修改日期</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -77,6 +78,7 @@
                 "scrollX": true,
                 "autoWidth": true,
                 "order": [[0, "asc"]],
+                "lengthMenu": [ 50, 100, 150, 200 ],
                 "serverSide": true,
                 "ajax": {
                     "url": '{{ url('admin/user/index') }}',
@@ -90,6 +92,7 @@
                     {"data": "name"},
                     {"data": "email"},
                     {"data": "created_at"},
+                    {"data": "updated_at"},
                     {"data": "action", "orderable":false, "searchable": false}
                 ],
                 "columnDefs": [

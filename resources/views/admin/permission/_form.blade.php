@@ -19,7 +19,7 @@
 <div class="form-group">
     <label for="icon" class="col-sm-3 control-label">图标</label>
     <div class="col-sm-6">
-        <button class="btn btn-default" id="icon" name="permission[icon]" data-cols="8" data-rows="6" data-iconset="fontawesome" data-icon="{{ isset(old('permission')['icon']) ? old('permission')['icon'] : ($permission['icon'] ? $permission['icon'] : 'fa-arrows') }}" role="iconpicker"></button>
+        <button class="btn btn-default" id="icon" name="permission[icon]" data-cols="8" data-rows="6" data-iconset="fontawesome" data-icon="{{ isset(old('permission')['icon']) ? old('permission')['icon'] : ($permission['icon'] ? $permission['icon'] : 'fa-circle-o') }}" role="iconpicker"></button>
     </div>
 </div>
 <div class="form-group">

@@ -34,21 +34,17 @@
 <div class="form-group">
     <label for="roles" class="col-sm-3 control-label">角色列表</label>
     <div class="col-sm-7">
-        @if($user['id'] == 1)
+        @if(isset($user['id']) && $user['id'] == 1)
             <p class="form-control-static">超级管理员(<span class="text-danger">不可更改</span>)</p>
         @else
             @if(!empty($roles))
-            <div class="panel-group" id="role-list-group">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        @foreach($roles as $role)
-                            <label class="checkbox-inline">
-                                <input type="checkbox" name="role[]" value="{{ $role['id'] }}" {{ isset(old('role')[0]) ? (in_array($role['id'],old('role')) ? 'checked' : '') : (isset($user_roles) ? (in_array($role['id'],$user_roles) ? 'checked' : '') : '') }} >{{ $role['name'] }}
-                            </label>
-                        @endforeach
-                    </div>
+                <div class="panel-group" id="role-list-group">
+                    @foreach($roles as $role)
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="role[]" value="{{ $role['id'] }}" {{ isset(old('role')[0]) ? (in_array($role['id'],old('role')) ? 'checked' : '') : (isset($user_roles) ? (in_array($role['id'],$user_roles) ? 'checked' : '') : '') }} >{{ $role['name'] }}
+                        </label>
+                    @endforeach
                 </div>
-            </div>
             @else
                 <p class="form-control-static">暂无角色  <a href="{{ url('admin/role/create') }}">添加</a></p>
             @endif

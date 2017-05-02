@@ -5,7 +5,7 @@
 @section('link')
     <link href="{{asset('static/libs/AdminLTE/2.3.11/plugins/datatables/dataTables.bootstrap.css')}}" rel="stylesheet">
 @endsection
-@section('script_src')
+@section('script')
     <script src="{{asset('static/libs/AdminLTE/2.3.11/plugins/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('static/libs/AdminLTE/2.3.11/plugins/datatables/dataTables.bootstrap.min.js')}}"></script>
 @endsection
@@ -29,6 +29,9 @@
             <div class="col-xs-6 col-sm-6 text-right">
                 <a href="{{ url('admin/role/create') }}" class="btn btn-success btn-sm"><i class="fa fa-plus-circle"></i> 添加角色</a>
             </div>
+        </div>
+        <div class="message">
+            @include('admin.common.message')
         </div>
         <div class="box box-primary">
             <div class="box-header with-border">
@@ -58,7 +61,7 @@
     </section>
 @endsection
 
-@section('script')
+@section('script_desc')
     <script>
         //搜索关键字
         var _search_value = '';
@@ -77,7 +80,6 @@
                 "scrollX": true,
                 "autoWidth": true,
                 "order": [[0, "asc"]],
-                "stateSave": true,
                 "serverSide": true,
                 "ajax": {
                     "url": '{{ url('admin/role/index') }}',

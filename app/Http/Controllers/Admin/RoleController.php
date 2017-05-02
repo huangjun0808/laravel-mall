@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\AdminRole as Role;
+use App\Models\AdminPermission as Permission;
+use Illuminate\Support\Facades\DB;
+
 class RoleController extends Controller
 {
     /**
@@ -57,20 +60,38 @@ class RoleController extends Controller
     {
         $data = [];
         $data['role'] = null;
+        $permissions = Permission::all()->toArray();
+        foreach($permissions as $permission){
+            if($permission['cid']==0){
+                $data['permissions'][$permission['id']] = $permission;
+            }else{
+                $data['permissions'][$permission['cid']]['children'][] = $permission;
+            }
+        }
         return view('admin.role.create',$data);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Requests\AdminRoleCreateRequest $request)
     {
-        //
+        $data = $request->input('role');
+        $permissions = $request->input('permission',[]);
+        DB::beginTransaction();
+        try{
+            $role = Role::create($data);
+            $role->permissions()->sync($permissions);
+            DB::commit();
+            return redirect('admin/role')->with('success','添加成功 !');
+        }catch(\Exception $e){
+            DB::rollback();
+            return redirect()->back()->with('error','系统有误,添加失败');
+        }
 
-        return 'store';
     }
 
     /**
@@ -92,19 +113,50 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = [];
+        $role = Role::find($id);
+        if(!$role){
+            abort(404);
+        }
+        $data['role'] = $role->toArray();
+        $permissions = Permission::all()->toArray();
+        foreach($permissions as $permission){
+            if($permission['cid']==0){
+                $data['permissions'][$permission['id']] = $permission;
+            }else{
+                $data['permissions'][$permission['cid']]['children'][] = $permission;
+            }
+        }
+        $role_permissions = $role->permissions->toArray();
+        foreach($role_permissions as $role_permission){
+            $data['role_permissions'][] = $role_permission['id'];
+        }
+        return view('admin.role.edit',$data);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Requests\AdminRoleUpdateRequest $request, $id)
     {
-        //
+        $data = $request->input('role');
+        $permissions = $request->input('permission',[]);
+        $role = Role::find($id);
+        DB::beginTransaction();
+        try{
+            $role->update($data);
+            $role->permissions()->detach();
+            $role->permissions()->sync($permissions);
+            DB::commit();
+            return redirect('admin/role')->with('success','保存成功 !');
+        }catch(\Exception $e){
+            DB::rollback();
+            return redirect()->back()->with('error','系统有误,保存失败');
+        }
     }
 
     /**

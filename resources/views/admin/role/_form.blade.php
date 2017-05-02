@@ -15,7 +15,48 @@
 </div>
 <div class="form-group">
     <label for="description" class="col-sm-3 control-label">权限列表</label>
-    <div class="col-sm-6">
-
+    <div class="col-sm-7">
+        <div class="panel-group" id="permission-list-group">
+            @foreach($permissions as $permission)
+                @if(isset($permission['children']))
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                            <span>
+                                {{$permission['label']}}
+                            </span>
+                                <a class="pull-right" href="#collapse{{$permission['id']}}" data-toggle="collapse">
+                                    <i class="fa fa-angle-double-up"></i> 折叠
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapse{{$permission['id']}}" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                @foreach($permission['children'] as $child)
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="permission[]" value="{{$child['id']}}" {{ isset(old('permission')[0]) ? (in_array($child['id'],old('permission')) ? 'checked' : '') : ( isset($role_permissions) ? (in_array($child['id'],$role_permissions) ? 'checked' : '') : '') }} >{{$child['label']}}
+                                    </label>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                @endif
+            @endforeach
+        </div>
     </div>
 </div>
+@section('script_desc')
+    <script type="text/javascript">
+        $(function () {
+            $("#permission-list-group .panel-collapse").on("show.bs.collapse", function () {
+                var _id = $(this).attr('id');
+                $("a[href='#"+_id+"']").html('<i class="fa fa-angle-double-up"></i> 折叠');
+            })
+            $("#permission-list-group .panel-collapse").on("hide.bs.collapse", function () {
+                var _id = $(this).attr('id');
+                $("a[href='#"+_id+"']").html('<i class="fa fa-angle-double-down"></i> 展开');
+            })
+
+        })
+    </script>
+@endsection

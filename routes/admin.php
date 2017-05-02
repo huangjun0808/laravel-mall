@@ -32,7 +32,7 @@ Route::group(['middleware' => ['auth:admin']], function () {
             'store' => 'admin.permission.store',
             'update' => 'admin.permission.update',
             'destroy' => 'admin.permission.destroy',
-        ]
+        ],
     ]);
     //角色管理路由
     Route::match(['get', 'post'], 'role/index', ['as' => 'admin.role.index', 'uses' => 'RoleController@index']);
@@ -40,10 +40,11 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::resource('role', 'RoleController', [
         'except' => ['show','edit'],
         'names' => [
-        'index' => 'admin.role.index',
-        'create' => 'admin.role.create',
-        'store' => 'admin.role.store',
-        'update' => 'admin.role.update',
-        'destroy' => 'admin.role.destroy',
-    ]]);
+            'index' => 'admin.role.index',
+            'create' => 'admin.role.create',
+            'store' => 'admin.role.store',
+            'update' => 'admin.role.update',
+            'destroy' => 'admin.role.destroy',
+        ],
+    ]);
 });

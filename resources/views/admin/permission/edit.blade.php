@@ -26,7 +26,7 @@
     <section class="content">
         <div class="row">
             <div class="col-md-12">
-                @include('admin.common.message')
+                @include('admin.common.form_message')
             </div>
         </div>
         <div class="row">

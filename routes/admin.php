@@ -23,7 +23,7 @@ Route::group(['middleware' => ['auth:admin']], function () {
     ]);
     //权限管理路由
     Route::match(['get', 'post'], 'permission/index', ['as' => 'admin.permission.index', 'uses' => 'PermissionController@index']);
-    Route::get('permission/{cid?}', ['uses' => 'PermissionController@index'])->where('cid', '[0-9]+');
+    Route::get('permission/{cid}/list', ['as' => 'admin.permission.index','uses' => 'PermissionController@index'])->where('cid', '[0-9]+');
     Route::get('permission/{cid}/create', ['as'=>'admin.permission.create','uses' => 'PermissionController@create'])->where('cid', '[0-9]+');
     Route::get('permission/{id}/edit', ['as'=>'admin.permission.edit','uses' => 'PermissionController@edit'])->where('id', '[0-9]+');
     Route::resource('permission', 'PermissionController', [

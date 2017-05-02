@@ -121,7 +121,7 @@
                             var str = '';
                             //下级菜单
                             if(row['cid']==0){
-                                str += '<a href="{{ url('admin/permission') }}' + '/' + row['id'] + '" class="text-success btn-xs"><i class="fa fa-angle-double-down"></i> 下级菜单</a>';
+                                str += '<a href="{{ url('admin/permission') }}' + '/' + row['id'] + '/list' + '" class="text-success btn-xs"><i class="fa fa-angle-double-down"></i> 下级菜单</a>';
                             }
                             //编辑
                             str += '<a href="{{ url('admin/permission') }}' + '/' + row['id'] + '/edit" class="text-success btn-xs"><i class="fa fa-edit"></i> 编辑</a>';

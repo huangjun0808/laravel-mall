@@ -136,7 +136,7 @@ class PermissionController extends Controller
         try{
             $permission->update($data);
             if($permission->cid){
-                $redirect_url = 'admin/permission/'.$permission->cid;
+                $redirect_url = 'admin/permission/'.$permission->cid.'/list';
             }else{
                 $redirect_url = 'admin/permission/';
             }

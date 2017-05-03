@@ -7,20 +7,22 @@
                     <i class="fa fa-dashboard"></i> <span>首页面板</span>
                 </a>
             </li>
-            <li class="treeview active">
-                <a href="#">
-                    <i class="fa fa-group"></i>
-                    <span>权限管理</span>
-                    <span class="pull-right-container">
-                      <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="{{ url('admin/permission') }}"><i class="fa fa-circle-o"></i>权限列表</a></li>
-                    <li><a href="{{ url('admin/role') }}"><i class="fa fa-circle-o"></i>角色列表</a></li>
-                    <li><a href="{{ url('admin/user') }}"><i class="fa fa-circle-o"></i>用户列表</a></li>
-                </ul>
-            </li>
+            @foreach(Request::get('leftMenus') as $leftMenu)
+                <li class="treeview @if(isset($leftMenu['active'])) active @endif">
+                    <a href="#">
+                        <i class="fa {{ $leftMenu['icon'] }}"></i>
+                        <span>{{ $leftMenu['label'] }}</span>
+                        <span class="pull-right-container">
+                          <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        @foreach($leftMenu['children'] as $child)
+                            <li class="@if(isset($child['active'])) active @endif"><a href="{{ route($child['name']) }}"><i class="fa {{ $child['icon'] }}"></i>{{ $child['label'] }}</a></li>
+                        @endforeach
+                    </ul>
+                </li>
+            @endforeach
         </ul>
     </section>
     <!-- /.sidebar -->

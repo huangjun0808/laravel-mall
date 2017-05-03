@@ -4,7 +4,7 @@ Route::get('login', 'LoginController@showLoginForm')->name('admin.login');
 Route::post('login', 'LoginController@login');
 Route::match(['get', 'post'], 'logout', 'LoginController@logout');
 
-Route::group(['middleware' => ['auth:admin']], function () {
+Route::group(['middleware' => ['auth:admin','menu']], function () {
 
     Route::get('/', 'IndexController@index');
 
@@ -17,8 +17,8 @@ Route::group(['middleware' => ['auth:admin']], function () {
             'names' => [
                 'index' => 'admin.user.index',
                 'create' => 'admin.user.create',
-                'store' => 'admin.user.store',
-                'update' => 'admin.user.update',
+                'store' => 'admin.user.create',
+                'update' => 'admin.user.edit',
                 'destroy' => 'admin.user.destroy',
             ]
         ]);
@@ -32,8 +32,8 @@ Route::group(['middleware' => ['auth:admin']], function () {
             'names' => [
                 'index' => 'admin.permission.index',
                 'create' => 'admin.permission.create',
-                'store' => 'admin.permission.store',
-                'update' => 'admin.permission.update',
+                'store' => 'admin.permission.create',
+                'update' => 'admin.permission.edit',
                 'destroy' => 'admin.permission.destroy',
             ],
         ]);
@@ -45,8 +45,8 @@ Route::group(['middleware' => ['auth:admin']], function () {
             'names' => [
                 'index' => 'admin.role.index',
                 'create' => 'admin.role.create',
-                'store' => 'admin.role.store',
-                'update' => 'admin.role.update',
+                'store' => 'admin.role.create',
+                'update' => 'admin.role.edit',
                 'destroy' => 'admin.role.destroy',
             ],
         ]);

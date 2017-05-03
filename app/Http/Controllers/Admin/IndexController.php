@@ -12,7 +12,7 @@ class IndexController extends Controller
     //
 
     public function index(){
-
+//        dd(\Illuminate\Support\Facades\Request::get('leftMenus'));
         return view('admin.index.index');
     }
 }

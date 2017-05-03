@@ -97,6 +97,10 @@
                                     str += '<a href="{{ url('admin/user') }}' + '/' + row['id'] + '/edit" class="text-success btn-xs"><i class="fa fa-edit"></i> 编辑</a>';
                                 }
                             @endif
+                            @if(Gate::forUser(auth('admin')->user())->check('admin.user.show'))
+                                str += '<a href="{{ url('admin/user') }}' + '/' + row['id'] + '" class="text-success btn-xs"><i class="fa fa-file-text-o"></i> 详情</a>';
+                            @endif
+
                             //删除
                             @if(Gate::forUser(auth('admin')->user())->check('admin.user.destory'))
                                 if(row['id'] != 1 || userVerify){

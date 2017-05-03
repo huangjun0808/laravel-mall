@@ -15,7 +15,7 @@
 
 @section('content')
     <section class="content">
-        <div class="row">
+        <div class="row row-button-group">
             <div class="col-md-12">
                 @include('admin.common.form_message')
             </div>

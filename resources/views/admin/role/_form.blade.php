@@ -18,13 +18,11 @@
     <div class="col-sm-7">
         <div class="panel-group" id="permission-list-group">
             @foreach($permissions as $permission)
-                @if(isset($permission['children']))
+                @if(!$permission->children->isEmpty())
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                            <span>
                                 {{$permission['label']}}
-                            </span>
                                 <a class="pull-right" href="#collapse{{$permission['id']}}" data-toggle="collapse">
                                     <i class="fa fa-angle-double-up"></i> 折叠
                                 </a>

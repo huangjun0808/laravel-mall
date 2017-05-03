@@ -81,7 +81,7 @@
                 },
                 "dom": '<"row row-office-top"<"col-sm-6"i><"col-sm-6"<"#search">>><"row"<"col-sm-12"rt>><"row row-top"<"col-sm-6"l><"col-sm-6"p>>',
                 "autoWidth": true,
-                "order": [[0, "asc"]],
+                "order": [[1, "desc"]],
                 "lengthMenu": [ 50, 100, 150, 200 ],
                 "serverSide": true,
                 "ajax": {
@@ -117,11 +117,13 @@
                             @if(Gate::forUser(auth('admin')->user())->check('admin.permission.edit'))
                                 str += '<a href="{{ url('admin/permission') }}' + '/' + row['id'] + '/edit" class="text-success btn-xs"><i class="fa fa-edit"></i> 编辑</a>';
                             @endif
+                            @if(Gate::forUser(auth('admin')->user())->check('admin.permission.show'))
+                                str += '<a href="{{ url('admin/permission') }}' + '/' + row['id'] + '" class="text-success btn-xs"><i class="fa fa-file-text-o"></i> 详情</a>';
+                            @endif
                             //删除
                             @if(Gate::forUser(auth('admin')->user())->check('admin.permission.destory'))
                                 str += '<a href="#" class="text-danger btn-xs"><i class="fa fa-times-circle"></i> 删除</a>';
                             @endif
-
                             return str;
                         }
                     },{

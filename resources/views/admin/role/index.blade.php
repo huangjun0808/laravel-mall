@@ -82,7 +82,7 @@
                 "columns": [
                     {"data": "id", "title":"ID"},
                     {"data": "name", "title":"角色名称"},
-                    {"data": "description", "title":"角色描述"},
+                    {"data": "description", "title":"角色概述"},
                     {"data": "created_at", "title":"创建日期"},
                     {"data": "updated_at", "title":"修改日期"},
                     {"data": "action", "title":"操作", "orderable":false, "searchable": false}
@@ -95,6 +95,9 @@
                             //编辑
                             @if(Gate::forUser(auth('admin')->user())->check('admin.role.edit'))
                                 str += '<a href="{{ url('admin/role') }}' + '/' + row['id'] + '/edit" class="text-success btn-xs"><i class="fa fa-edit"></i> 编辑</a>';
+                            @endif
+                            @if(Gate::forUser(auth('admin')->user())->check('admin.role.show'))
+                                str += '<a href="{{ url('admin/role') }}' + '/' + row['id'] + '" class="text-success btn-xs"><i class="fa fa-file-text-o"></i> 详情</a>';
                             @endif
                             //删除
                             @if(Gate::forUser(auth('admin')->user())->check('admin.role.destory'))

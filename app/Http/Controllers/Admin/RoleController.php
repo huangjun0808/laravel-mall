@@ -60,14 +60,10 @@ class RoleController extends Controller
     {
         $data = [];
         $data['role'] = null;
-        $permissions = Permission::all()->toArray();
-        foreach($permissions as $permission){
-            if($permission['cid']==0){
-                $data['permissions'][$permission['id']] = $permission;
-            }else{
-                $data['permissions'][$permission['cid']]['children'][] = $permission;
-            }
-        }
+        $permissions = Permission::where('cid', 0)->with(['children'=>function($query){
+                $query->orderBy('name','desc');
+            }])->get();
+        $data['permissions'] = $permissions;
         return view('admin.role.create',$data);
     }
 
@@ -102,7 +98,16 @@ class RoleController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = [];
+        $role = Role::with(['permissions'=>function($query){
+                $query->orderBy('name','desc');
+            }])->find($id);
+        if(!$role){
+            abort(404);
+        }
+        $data['role'] = $role;
+        return view('admin.role.show',$data);
+
     }
 
     /**
@@ -119,14 +124,10 @@ class RoleController extends Controller
             abort(404);
         }
         $data['role'] = $role->toArray();
-        $permissions = Permission::all()->toArray();
-        foreach($permissions as $permission){
-            if($permission['cid']==0){
-                $data['permissions'][$permission['id']] = $permission;
-            }else{
-                $data['permissions'][$permission['cid']]['children'][] = $permission;
-            }
-        }
+        $permissions = Permission::where('cid', 0)->with(['children'=>function($query){
+            $query->orderBy('name','desc');
+        }])->get();
+        $data['permissions'] = $permissions;
         $role_permissions = $role->permissions->toArray();
         foreach($role_permissions as $role_permission){
             $data['role_permissions'][] = $role_permission['id'];

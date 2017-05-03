@@ -15,7 +15,7 @@
 
 @section('content')
     <section class="content">
-        <div class="row">
+        <div class="row row-button-group">
             <div class="col-md-12">
                 @include('admin.common.form_message')
             </div>
@@ -23,7 +23,7 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="box box-primary">
-                    <div class="box-header">
+                    <div class="box-header with-border">
                         <h3 class="box-title">编辑角色</h3>
                     </div>
                     <div class="box-body">

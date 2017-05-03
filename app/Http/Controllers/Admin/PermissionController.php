@@ -82,7 +82,7 @@ class PermissionController extends Controller
         try{
             $permission = Permission::create($data);
             if($permission->cid){
-                $redirect_url = 'admin/permission/'.$permission->cid;
+                $redirect_url = 'admin/permission/'.$permission->cid .'/list';
             }else{
                 $redirect_url = 'admin/permission/';
             }
@@ -101,8 +101,13 @@ class PermissionController extends Controller
      */
     public function show($id)
     {
-        //
-        return 'show';
+        $data = [];
+        $permission = Permission::with('children')->find($id);
+        if(!$permission){
+            abort(404);
+        }
+        $data['permission'] = $permission;
+        return view('admin.permission.show',$data);
     }
 
     /**

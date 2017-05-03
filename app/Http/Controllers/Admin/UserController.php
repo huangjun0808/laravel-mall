@@ -99,8 +99,14 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
-        return 'show';
+        $data = [];
+        $user = User::with('roles')->find($id);
+        if(!$user){
+            abort(404);
+        }
+        $data['user'] = $user;
+//        dd($data);
+        return view('admin.user.show', $data);
 
     }
 

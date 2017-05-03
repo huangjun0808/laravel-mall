@@ -23,11 +23,13 @@
 
 @section('content')
     <section class="content">
-        <div class="row" style="padding: 10px 0;">
+        <div class="row row-button-group">
             <div class="col-xs-6 col-sm-6">
             </div>
             <div class="col-xs-6 col-sm-6 text-right">
-                <a href="{{ url('admin/user/create') }}" class="btn btn-success btn-sm"><i class="fa fa-plus-circle"></i> 添加用户</a>
+                @if(Gate::forUser(auth('admin')->user())->check('admin.user.create'))
+                    <a href="{{ url('admin/user/create') }}" class="btn btn-success btn-sm"><i class="fa fa-plus-circle"></i> 添加用户</a>
+                @endif
             </div>
         </div>
         <div class="message">
@@ -101,11 +103,15 @@
                         "render": function (data, type, row, meta) {
                             var str = '';
                             //编辑
-                            str += '<a href="{{ url('admin/user') }}' + '/' + row['id'] + '/edit" class="text-success btn-xs"><i class="fa fa-edit"></i> 编辑</a>';
+                            @if(Gate::forUser(auth('admin')->user())->check('admin.user.edit'))
+                                str += '<a href="{{ url('admin/user') }}' + '/' + row['id'] + '/edit" class="text-success btn-xs"><i class="fa fa-edit"></i> 编辑</a>';
+                            @endif
                             //删除
-                            if(row['id'] != 1){
-                                str += '<a href="#" class="text-danger btn-xs"><i class="fa fa-times-circle"></i> 删除</a>';
-                            }
+                            @if(Gate::forUser(auth('admin')->user())->check('admin.user.destory'))
+                                if(row['id'] != 1){
+                                    str += '<a href="#" class="text-danger btn-xs"><i class="fa fa-times-circle"></i> 删除</a>';
+                                }
+                            @endif
                             return str;
                         }
                     }

@@ -24,17 +24,19 @@
 
 @section('content')
     <section class="content">
-        <div class="row" style="padding: 10px 0;">
+        <div class="row row-button-group">
             <div class="col-xs-6 col-sm-6">
                 @if($cid != 0)
                     <a href="{{ url('admin/permission') }}" class="btn btn-warning btn-sm"><i class="fa fa-reply-all"></i> 返回上级</a>
                 @endif
             </div>
             <div class="col-xs-6 col-sm-6 text-right">
-                @if($cid != 0)
-                    <a href="{{ url('admin/permission') .'/'. $cid .'/create'}}" class="btn btn-success btn-sm"><i class="fa fa-plus-circle"></i> 添加子权限</a>
-                @else
-                    <a href="{{ url('admin/permission/create') }}" class="btn btn-success btn-sm"><i class="fa fa-plus-circle"></i> 添加权限</a>
+                @if(Gate::forUser(auth('admin')->user())->check('admin.permission.create'))
+                    @if($cid != 0)
+                        <a href="{{ url('admin/permission') .'/'. $cid .'/create'}}" class="btn btn-success btn-sm"><i class="fa fa-plus-circle"></i> 添加子权限</a>
+                    @else
+                        <a href="{{ url('admin/permission/create') }}" class="btn btn-success btn-sm"><i class="fa fa-plus-circle"></i> 添加权限</a>
+                    @endif
                 @endif
             </div>
         </div>
@@ -124,9 +126,14 @@
                                 str += '<a href="{{ url('admin/permission') }}' + '/' + row['id'] + '/list' + '" class="text-success btn-xs"><i class="fa fa-angle-double-down"></i> 下级菜单</a>';
                             }
                             //编辑
-                            str += '<a href="{{ url('admin/permission') }}' + '/' + row['id'] + '/edit" class="text-success btn-xs"><i class="fa fa-edit"></i> 编辑</a>';
+                            @if(Gate::forUser(auth('admin')->user())->check('admin.permission.edit'))
+                                str += '<a href="{{ url('admin/permission') }}' + '/' + row['id'] + '/edit" class="text-success btn-xs"><i class="fa fa-edit"></i> 编辑</a>';
+                            @endif
                             //删除
-                            str += '<a href="#" class="text-danger btn-xs"><i class="fa fa-times-circle"></i> 删除</a>';
+                            @if(Gate::forUser(auth('admin')->user())->check('admin.permission.destory'))
+                                str += '<a href="#" class="text-danger btn-xs"><i class="fa fa-times-circle"></i> 删除</a>';
+                            @endif
+
                             return str;
                         }
                     }

@@ -24,3 +24,7 @@
 #role-list-group .checkbox-inline{
     margin-right: 10px;
 }
+.content .row-button-group{
+    padding: 10px 0;
+    min-height: 50px;
+}

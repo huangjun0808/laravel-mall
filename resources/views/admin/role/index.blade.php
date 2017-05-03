@@ -23,11 +23,13 @@
 
 @section('content')
     <section class="content">
-        <div class="row" style="padding: 10px 0;">
+        <div class="row row-button-group">
             <div class="col-xs-6 col-sm-6">
             </div>
             <div class="col-xs-6 col-sm-6 text-right">
-                <a href="{{ url('admin/role/create') }}" class="btn btn-success btn-sm"><i class="fa fa-plus-circle"></i> 添加角色</a>
+                @if(Gate::forUser(auth('admin')->user())->check('admin.role.create'))
+                    <a href="{{ url('admin/role/create') }}" class="btn btn-success btn-sm"><i class="fa fa-plus-circle"></i> 添加角色</a>
+                @endif
             </div>
         </div>
         <div class="message">
@@ -103,9 +105,14 @@
                         "render": function (data, type, row, meta) {
                             var str = '';
                             //编辑
-                            str += '<a href="{{ url('admin/role') }}' + '/' + row['id'] + '/edit" class="text-success btn-xs"><i class="fa fa-edit"></i> 编辑</a>';
+                            @if(Gate::forUser(auth('admin')->user())->check('admin.role.edit'))
+                                str += '<a href="{{ url('admin/role') }}' + '/' + row['id'] + '/edit" class="text-success btn-xs"><i class="fa fa-edit"></i> 编辑</a>';
+                            @endif
                             //删除
-                            str += '<a href="#" class="text-danger btn-xs"><i class="fa fa-times-circle"></i> 删除</a>';
+                            @if(Gate::forUser(auth('admin')->user())->check('admin.role.destory'))
+                                str += '<a href="#" class="text-danger btn-xs"><i class="fa fa-times-circle"></i> 删除</a>';
+                            @endif
+
                             return str;
                         }
                     }
@@ -126,9 +133,7 @@
 
             $(document).on('click', '#searchBtn', function () {
                 var _value = $.trim($("input[name='search']").val());
-                if(_value){
-                    table.search(_value).draw();
-                }
+                table.search(_value).draw();
 
             });
 

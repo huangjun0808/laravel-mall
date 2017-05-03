@@ -54,19 +54,7 @@
             <!-- /.box-header -->
             <div class="box-body">
                 <table id="user_list" class="table table-hover table-bordered" cellspacing="0" width="100%">
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>权限规则</th>
-                        <th>权限名称</th>
-                        <th>权限概述</th>
-                        <th>创建日期</th>
-                        <th>修改日期</th>
-                        <th>操作</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
+
                 </table>
             </div>
             <!-- /.box-body -->
@@ -108,13 +96,14 @@
                     }
                 },
                 "columns": [
-                    {"data": "id"},
-                    {"data": "name"},
-                    {"data": "label"},
-                    {"data": "description"},
-                    {"data": "created_at"},
-                    {"data": "updated_at"},
-                    {"data": "action", "orderable":false, "searchable": false}
+                    {"data": "id","title":"ID"},
+                    {"data": "name","title":"权限规则"},
+                    {"data": "label","title":"权限名称"},
+                    {"data": "description","title":"权限概述"},
+                    {"data": "type","title":"是否菜单"},
+                    {"data": "created_at","title":"创建日期"},
+                    {"data": "updated_at","title":"修改日期"},
+                    {"data": "action", "title":"操作", "orderable":false, "searchable": false}
                 ],
                 "columnDefs": [
                     {
@@ -136,11 +125,31 @@
 
                             return str;
                         }
+                    },{
+                        "targets": 4,
+                        "render": function (data, type, row, meta) {
+                            var str = '';
+                            switch (row['type']){
+                                case 0:
+                                        str = '权限(默认)';
+                                    break;
+                                case 1:
+                                        str = '左侧菜单';
+                                    break;
+                                default:
+                                    break;
+                            }
+                            return str;
+                        }
                     }
                 ]
             });
             //ajax事件-当datatable发出ajax请求前
             table.on('preXhr.dt', function (e, settings, data) {
+                @if(!$cid)
+                    var column = table.column(4);
+                    column.visible(false);
+                @endif
                 loadShow();
                 _search_value = data.search.value;
             });

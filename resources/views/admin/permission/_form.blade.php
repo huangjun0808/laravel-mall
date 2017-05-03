@@ -16,6 +16,22 @@
         <p class="form-control-static text-danger">{{ $errors->first('label') }}</p>
     </div>
 </div>
+@if((isset($cid) && $cid != 0) || (isset($permission['cid']) && $permission['cid'] != 0))
+<div class="form-group">
+    <label for="type" class="col-sm-3 control-label">是否菜单 <span class="require-star-red">*</span></label>
+    <div class="col-sm-6">
+        <label class="radio-inline">
+            <input type="radio" name="permission[type]" value="0" @if($permission['type']==0 ) checked @endif >权限(默认)
+        </label>
+        <label class="radio-inline">
+            <input type="radio" name="permission[type]" value="1" @if($permission['type']==1 ) checked @endif >左侧菜单
+        </label>
+    </div>
+    <div class="col-sm-3">
+        <p class="form-control-static text-danger">{{ $errors->first('type') }}</p>
+    </div>
+</div>
+@endif
 <div class="form-group">
     <label for="icon" class="col-sm-3 control-label">图标</label>
     <div class="col-sm-6">

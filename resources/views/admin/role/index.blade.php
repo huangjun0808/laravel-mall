@@ -42,18 +42,7 @@
             <!-- /.box-header -->
             <div class="box-body">
                 <table id="user_list" class="table table-hover table-bordered" cellspacing="0" width="100%">
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>角色名称</th>
-                        <th>角色描述</th>
-                        <th>创建日期</th>
-                        <th>修改日期</th>
-                        <th>操作</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
+                    <!--表格数据-->
                 </table>
             </div>
             <!-- /.box-body -->
@@ -79,7 +68,6 @@
                     "url":"{{ asset('static/dataTable_zh_CN.json') }}",
                 },
                 "dom": '<"row row-office-top"<"col-sm-6"i><"col-sm-6"<"#search">>><"row"<"col-sm-12"rt>><"row row-top"<"col-sm-6"l><"col-sm-6"p>>',
-                "scrollX": true,
                 "autoWidth": true,
                 "order": [[0, "asc"]],
                 "lengthMenu": [ 50, 100, 150, 200 ],
@@ -92,12 +80,12 @@
                     }
                 },
                 "columns": [
-                    {"data": "id"},
-                    {"data": "name"},
-                    {"data": "description"},
-                    {"data": "created_at"},
-                    {"data": "updated_at"},
-                    {"data": "action", "orderable":false, "searchable": false}
+                    {"data": "id", "title":"ID"},
+                    {"data": "name", "title":"角色名称"},
+                    {"data": "description", "title":"角色描述"},
+                    {"data": "created_at", "title":"创建日期"},
+                    {"data": "updated_at", "title":"修改日期"},
+                    {"data": "action", "title":"操作", "orderable":false, "searchable": false}
                 ],
                 "columnDefs": [
                     {

@@ -54,7 +54,7 @@
             <!-- /.box-header -->
             <div class="box-body">
                 <table id="user_list" class="table table-hover table-bordered" cellspacing="0" width="100%">
-
+                    <!--表格数据-->
                 </table>
             </div>
             <!-- /.box-body -->
@@ -80,7 +80,6 @@
                     "url":"{{ asset('static/dataTable_zh_CN.json') }}",
                 },
                 "dom": '<"row row-office-top"<"col-sm-6"i><"col-sm-6"<"#search">>><"row"<"col-sm-12"rt>><"row row-top"<"col-sm-6"l><"col-sm-6"p>>',
-                "scrollX": true,
                 "autoWidth": true,
                 "order": [[0, "asc"]],
                 "lengthMenu": [ 50, 100, 150, 200 ],
@@ -161,9 +160,7 @@
             //搜索
             $(document).on('click', '#searchBtn', function () {
                 var _value = $.trim($("input[name='search']").val());
-                if(_value){
-                    table.search(_value).draw();
-                }
+                table.search(_value).draw();
             });
             $(document).keydown(function () {
                 if(event.keyCode === 13){

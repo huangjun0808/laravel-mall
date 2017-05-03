@@ -8,6 +8,7 @@ use App\Models\AdminUser as User;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 
 class UserController extends Controller
 {
@@ -111,6 +112,10 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+        $previousUrl = URL::previous();
+        if($id == 1 && auth('admin')->user()->id != 1){
+            return response()->view('admin.errors.403', compact('previousUrl'));
+        }
         $data = [];
         $user = User::find($id);
         if(!$user){
@@ -134,6 +139,10 @@ class UserController extends Controller
      */
     public function update(Requests\AdminUserUpdateRequest $request, $id)
     {
+        $previousUrl = URL::previous();
+        if($id == 1 && auth('admin')->user()->id != 1){
+            return response()->view('admin.errors.403', compact('previousUrl'));
+        }
         $data = $request->input('user');
         $roles = $request->input('role',[]);
         $user = User::find($id);
@@ -144,6 +153,7 @@ class UserController extends Controller
                 unset($data['password_confirmation']);
                 $user->update($data);
             }
+            //超级管理员角色不可更改
             if($id != 1){
                 $user->roles()->detach();
                 $user->roles()->sync($roles);
@@ -154,7 +164,6 @@ class UserController extends Controller
             DB::rollback();
             return redirect()->back()->with('error','系统出错,更新失败 !');
         }
-
     }
 
     /**
@@ -165,6 +174,10 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
+        $previousUrl = URL::previous();
+        if($id == 1 && auth('admin')->user()->id != 1){
+            return response()->view('admin.errors.403', compact('previousUrl'));
+        }
         //
         return 'destroy';
 

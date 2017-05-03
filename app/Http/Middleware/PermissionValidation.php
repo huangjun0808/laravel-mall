@@ -25,6 +25,7 @@ class PermissionValidation
         $previousUrl = URL::previous();
         //当前访问网址的路由名称
         $routeName = starts_with(Route::currentRouteName(),'admin.') ? Route::currentRouteName() : 'admin.' . Route::currentRouteName();
+        //非超级管理员需要过滤的权限数组
         if(!Gate::forUser(auth('admin')->user())->check($routeName)){
             if ($request->ajax() && ($request->getMethod() != 'GET')) {
                 return response()->json([

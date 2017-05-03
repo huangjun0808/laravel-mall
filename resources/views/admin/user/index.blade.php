@@ -42,18 +42,7 @@
             <!-- /.box-header -->
             <div class="box-body">
                 <table id="user_list" class="table table-hover table-bordered" cellspacing="0" width="100%">
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>用户名</th>
-                        <th>邮箱</th>
-                        <th>创建日期</th>
-                        <th>修改日期</th>
-                        <th>操作</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
+                    <!--表格数据-->
                 </table>
             </div>
             <!-- /.box-body -->
@@ -77,7 +66,6 @@
                     "url":"{{ asset('static/dataTable_zh_CN.json') }}",
                 },
                 "dom": '<"row row-office-top"<"col-sm-6"i><"col-sm-6"<"#search">>><"row"<"col-sm-12"rt>><"row row-top"<"col-sm-6"l><"col-sm-6"p>>',
-                "scrollX": true,
                 "autoWidth": true,
                 "order": [[0, "asc"]],
                 "lengthMenu": [ 50, 100, 150, 200 ],
@@ -90,25 +78,28 @@
                     }
                 },
                 "columns": [
-                    {"data": "id"},
-                    {"data": "name"},
-                    {"data": "email"},
-                    {"data": "created_at"},
-                    {"data": "updated_at"},
-                    {"data": "action", "orderable":false, "searchable": false}
+                    {"data": "id", "title": "ID"},
+                    {"data": "name", "title": "用户名"},
+                    {"data": "email", "title": "邮箱"},
+                    {"data": "created_at", "title": "创建日期"},
+                    {"data": "updated_at", "title": "修改日期"},
+                    {"data": "action", "title": "操作", "orderable":false, "searchable": false}
                 ],
                 "columnDefs": [
                     {
                         "targets": -1,
                         "render": function (data, type, row, meta) {
+                            var userVerify = '{{ auth('admin')->user()->id == 1 }}';
                             var str = '';
                             //编辑
                             @if(Gate::forUser(auth('admin')->user())->check('admin.user.edit'))
-                                str += '<a href="{{ url('admin/user') }}' + '/' + row['id'] + '/edit" class="text-success btn-xs"><i class="fa fa-edit"></i> 编辑</a>';
+                                if(row['id'] != 1 || userVerify){
+                                    str += '<a href="{{ url('admin/user') }}' + '/' + row['id'] + '/edit" class="text-success btn-xs"><i class="fa fa-edit"></i> 编辑</a>';
+                                }
                             @endif
                             //删除
                             @if(Gate::forUser(auth('admin')->user())->check('admin.user.destory'))
-                                if(row['id'] != 1){
+                                if(row['id'] != 1 || userVerify){
                                     str += '<a href="#" class="text-danger btn-xs"><i class="fa fa-times-circle"></i> 删除</a>';
                                 }
                             @endif
@@ -117,32 +108,22 @@
                     }
                 ]
             });
-            //自定义搜索框
 
             //ajax事件-当datatable发出ajax请求前
             table.on('preXhr.dt', function (e, settings, data) {
                 loadShow();
-                console.log('preXhr');
             });
+
             //重绘事件-当表格重绘完成后
             table.on('draw.dt', function () {
                 loadFadeOut();
-                console.log('draw');
                 $("#search").html('<div class="form-horizontal"><div class="row"> <div class="col-sm-12 text-right"> <div class="input-group"> <label class="sr-only">搜索</label> <input type="text" class="form-control input-sm" name="search" placeholder="请输入用户名或邮箱"> <span class="input-group-btn"> <button class="btn btn-default btn-sm" type="button" id="searchBtn"><i class="fa fa-search"></i> 搜索</button> </span> </div> </div> </div> </div>');
 
-            });
-            table.on('length.dt', function (e, settings, len) {
-                console.log('length');
-                console.log(settings);
-                console.log(len);
             });
             
             $(document).on('click', '#searchBtn', function () {
                 var _value = $.trim($("input[name='search']").val());
-                if(_value){
-                    table.search(_value).draw();
-                }
-
+                table.search(_value).draw();
             });
             
             $(document).keydown(function () {

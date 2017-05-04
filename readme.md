@@ -1,27 +1,20 @@
-# Laravel PHP Framework
+# Laravel 5.3 后台管理系统实例
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
+###主要模块
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
+>RBAC权限管理: 基于laravel 5.3 与 自带的gate来做权限认证,左侧菜单栏是基于权限来生成
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
+## 截图
 
-## Official Documentation
+![](http://opepgx14e.bkt.clouddn.com/permission.png)
 
-Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
+## 安装
 
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+- git clone 到本地
+- 执行 `composer install`,创建好数据库
+- 配置 **.env** 中数据库连接信息,没有.env请复制.env.example命名为.env
+- 执行 `php artisan key:generate`
+- 执行 `php artisan migrate`
+- 执行 `php artisan db:seed`
+- 键入 '域名/admin/login'(后台登录)
+- 默认后台账号:root@admin.com 密码:root123

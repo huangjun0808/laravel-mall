@@ -47,8 +47,7 @@
             </div>
             <!-- /.box-body -->
         </div>
-        <!-- /.box -->
-        <!-- /.box -->
+        @include('admin.common.delete_modal')
     </section>
 @endsection
 
@@ -104,7 +103,7 @@
                             //删除
                             @if(Gate::forUser(auth('admin')->user())->check('admin.user.destory'))
                                 if(row['id'] != 1 || userVerify){
-                                    str += '<a href="#" class="text-danger btn-xs"><i class="fa fa-times-circle"></i> 删除</a>';
+                                    str += '<a href="javascript:;" data-attr="'+row['id']+'" class="text-danger btn-xs delBtn"><i class="fa fa-times-circle"></i> 删除</a>';
                                 }
                             @endif
                             return str;
@@ -135,6 +134,13 @@
                     $("#searchBtn").click();
                 }
             });
+
+            $(document).on('click', '.delBtn', function () {
+                var _id = $(this).data('attr');
+                $('.modal-delete .tips').html('确认要删除这个用户吗?');
+                $('.deleteForm').attr('action','{{ url('admin/user') }}' + '/' + _id);
+                $('.modal-delete').modal();
+            })
         });
     </script>
 @endsection

@@ -62,6 +62,7 @@
         <!-- /.box -->
         <!-- /.box -->
     </section>
+    @include('admin.common.delete_modal')
 @endsection
 
 @section('script_desc')
@@ -122,7 +123,7 @@
                             @endif
                             //删除
                             @if(Gate::forUser(auth('admin')->user())->check('admin.permission.destory'))
-                                str += '<a href="#" class="text-danger btn-xs"><i class="fa fa-times-circle"></i> 删除</a>';
+                                str += '<a href="javascript:;" class="text-danger btn-xs delBtn" data-attr="' + row['id'] + '"><i class="fa fa-times-circle"></i> 删除</a>';
                             @endif
                             return str;
                         }
@@ -169,6 +170,12 @@
                     $("#searchBtn").click();
                 }
             });
+            $(document).on('click', '.delBtn', function () {
+                var _id = $(this).data('attr');
+                $('.modal-delete .tips').html('确认要删除这个权限吗?');
+                $('.deleteForm').attr('action','{{ url('admin/permission') }}' + '/' + _id);
+                $('.modal-delete').modal();
+            })
         });
     </script>
 @endsection

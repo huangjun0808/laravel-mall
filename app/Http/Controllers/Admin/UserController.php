@@ -184,8 +184,16 @@ class UserController extends Controller
         if($id == 1 && auth('admin')->user()->id != 1){
             return response()->view('admin.errors.403', compact('previousUrl'));
         }
-        //
-        return 'destroy';
-
+        DB::beginTransaction();
+        try{
+            $user = User::find($id);
+            $user->roles()->detach();
+            $user->delete();
+            DB::commit();
+            return redirect('admin/user')->with('success','删除成功 !');
+        }catch(\Exception $e){
+            DB::rollback();
+            return redirect()->back()->with('error','系统出错,删除失败');
+        }
     }
 }

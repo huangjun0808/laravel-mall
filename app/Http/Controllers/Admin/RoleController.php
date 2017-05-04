@@ -168,6 +168,17 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DB::beginTransaction();
+        try{
+            $role = Role::find($id);
+            $role->permissions()->detach();
+            $role->users()->detach();
+            $role->delete();
+            DB::commit();
+            return redirect('admin/role')->with('success','删除成功 !');
+        }catch(\Exception $e){
+            DB::rollback();
+            return redirect()->back()->with('error','系统出错,删除失败');
+        }
     }
 }

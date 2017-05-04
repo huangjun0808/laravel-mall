@@ -21,8 +21,10 @@ class GetSystemMenu
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        $request->attributes->set('leftMenus', $this->getLeftMenu());
-        $this->getLeftMenu();
+        //ajax请求不需要获取菜单
+        if(!$request->ajax()){
+            $request->attributes->set('leftMenus', $this->getLeftMenu());
+        }
         return $next($request);
     }
 

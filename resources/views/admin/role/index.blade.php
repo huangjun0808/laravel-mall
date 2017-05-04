@@ -49,6 +49,7 @@
         </div>
         <!-- /.box -->
         <!-- /.box -->
+        @include('admin.common.delete_modal')
     </section>
 @endsection
 
@@ -101,7 +102,7 @@
                             @endif
                             //删除
                             @if(Gate::forUser(auth('admin')->user())->check('admin.role.destory'))
-                                str += '<a href="#" class="text-danger btn-xs"><i class="fa fa-times-circle"></i> 删除</a>';
+                                str += '<a href="javascript:;" data-attr="'+row['id']+'" class="text-danger btn-xs delBtn"><i class="fa fa-times-circle"></i> 删除</a>';
                             @endif
 
                             return str;
@@ -133,6 +134,13 @@
                     $("#searchBtn").click();
                 }
             });
+
+            $(document).on('click', '.delBtn', function () {
+                var _id = $(this).data('attr');
+                $('.modal-delete .tips').html('确认要删除这个角色吗?');
+                $('.deleteForm').attr('action','{{ url('admin/role') }}' + '/' + _id);
+                $('.modal-delete').modal();
+            })
         });
     </script>
 @endsection

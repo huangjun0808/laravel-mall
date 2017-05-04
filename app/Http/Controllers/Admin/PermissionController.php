@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\AdminPermission as Permission;
+use Illuminate\Support\Facades\DB;
 
 class PermissionController extends Controller
 {
@@ -163,6 +164,26 @@ class PermissionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $children = Permission::where('cid',$id)->get();
+        if(!$children->isEmpty()){
+            return redirect()->back()->with('error','请先将该权限的子权限删除后再做删除操作!');
+        }
+        DB::beginTransaction();
+        try{
+            $permission = Permission::find($id);
+            $permission->roles()->detach();
+            $permission->delete();
+            DB::commit();
+            if($permission->cid){
+                $redirect_url = 'admin/permission/'.$permission->cid.'/list';
+            }else{
+                $redirect_url = 'admin/permission';
+            }
+            event(new MenuChangeEvent());
+            return redirect($redirect_url)->with('success','删除成功 !');
+        }catch(\Exception $e){
+            DB::rollback();
+            return redirect()->back()->with('error','系统出错,删除失败');
+        }
     }
 }

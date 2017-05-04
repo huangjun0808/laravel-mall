@@ -14,7 +14,7 @@ class AdminUserTableSeeder extends Seeder
         DB::table('admin_user')->insert([
             'name'=>'超级管理员',
             'email'=>'root@admin.com',
-            'password'=>bcrypt('root123'),
+            'password'=>bcrypt('root123456'),
             'created_at'=>date('Y-m-d H:i:s',time()),
             'updated_at'=>date('Y-m-d H:i:s',time()),
         ]);

@@ -3,6 +3,7 @@
 Route::get('login', 'LoginController@showLoginForm')->name('admin.login');
 Route::post('login', 'LoginController@login');
 Route::match(['get', 'post'], 'logout', 'LoginController@logout');
+Route::any('serve/wechat', 'WechatController@serve');
 
 Route::group(['middleware' => ['auth:admin','menu']], function () {
 

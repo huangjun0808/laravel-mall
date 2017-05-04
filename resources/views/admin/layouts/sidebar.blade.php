@@ -1,7 +1,7 @@
 <aside class="main-sidebar">
     <section class="sidebar">
         <ul class="sidebar-menu">
-            <li class="header">MAIN NAVIGATION</li>
+            {{--<li class="header">MAIN NAVIGATION</li>--}}
             <li class="treeview">
                 <a href="{{ url('admin') }}">
                     <i class="fa fa-dashboard"></i> <span>首页面板</span>

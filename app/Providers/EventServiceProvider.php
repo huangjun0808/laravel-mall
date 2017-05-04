@@ -16,6 +16,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\MenuChangeEvent'  =>  [
             'App\Listeners\MenuChangeListener',
         ],
+        'Overtrue\LaravelWechat\Events\WeChatUserAuthorized' => [
+            'App\Listeners\WeChatUserAuthorizedListener'
+        ],
     ];
 
     /**

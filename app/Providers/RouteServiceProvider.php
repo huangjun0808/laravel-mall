@@ -41,10 +41,30 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapAdminRoutes();
 
+        $this->mapMobileRoutes();
+
     }
 
     /**
-     * Define the "web" routes for the application.
+     * Define the "mobile" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapMobileRoutes()
+    {
+        Route::group([
+            'prefix'=>'mobile',
+            'middleware' => 'mobile',
+            'namespace' => 'App\Http\Controllers\Mobile',
+        ], function ($router) {
+            require base_path('routes/mobile.php');
+        });
+    }
+
+    /**
+     * Define the "admin" routes for the application.
      *
      * These routes all receive session state, CSRF protection, etc.
      *

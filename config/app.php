@@ -90,7 +90,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'en',
+    'fallback_locale' => 'zh',
 
     /*
     |--------------------------------------------------------------------------
@@ -166,6 +166,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Arcanedev\LogViewer\LogViewerServiceProvider::class,
         Overtrue\LaravelWechat\ServiceProvider::class,
         //
 

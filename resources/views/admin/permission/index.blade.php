@@ -131,7 +131,7 @@
                         "targets": 4,
                         "render": function (data, type, row, meta) {
                             var str = '';
-                            switch (row['type']){
+                            switch (data){
                                 case 0:
                                         str = '权限(默认)';
                                     break;
@@ -140,6 +140,16 @@
                                     break;
                                 default:
                                     break;
+                            }
+                            return str;
+                        }
+                    },{
+                        "targets": 1,
+                        "render": function (data, type, row, meta) {
+                            var str = '';
+                            var dataArr = data.split('|');
+                            for (var i = 0; i < dataArr.length; i++){
+                                str += dataArr[i] + '<br>';
                             }
                             return str;
                         }

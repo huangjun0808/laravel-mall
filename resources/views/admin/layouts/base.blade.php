@@ -14,8 +14,11 @@
     <link href="{{asset('static/libs/AdminLTE/2.3.11/dist/css/skins/skin-blue.min.css')}}" rel="stylesheet">
     <link href="{{asset('static/libs/loaders/css/style.css')}}" rel="stylesheet">
     <link href="{{asset('static/css/admin.css')}}" rel="stylesheet">
-    @section('link')
-    @show
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    @yield('link')
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
     <!-- Site wrapper -->
@@ -37,6 +40,7 @@
         @include('admin.layouts.footer')
         <div class="control-sidebar-bg"></div>
     </div>
+    @yield('modals')
     <script src="{{asset('static/libs/jquery/2.1.4/jquery.min.js')}}"></script>
     <script src="{{asset('static/libs/bootstrap/3.3.5/js/bootstrap.min.js')}}"></script>
     <script src="{{asset('static/libs/AdminLTE/2.3.11/dist/js/app.min.js')}}"></script>

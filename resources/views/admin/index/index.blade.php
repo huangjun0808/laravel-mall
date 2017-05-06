@@ -44,6 +44,7 @@
             <h4>Tip!</h4>
             <p>首页面板</p>
         </div>
+        @if(Gate::forUser(auth('admin')->user())->check('pv','log-viewer::dashboard'))
         <div class="box box-primary">
             <div class="box-header with-border">
                 <h3 class="box-title">日志面板</h3>
@@ -90,5 +91,6 @@
             <!-- /.box-body -->
         </div>
         <!-- /.box -->
+        @endif
     </section>
 @endsection

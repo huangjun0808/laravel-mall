@@ -31,7 +31,7 @@
                 @endif
             </div>
             <div class="col-xs-6 col-sm-6 text-right">
-                @if(Gate::forUser(auth('admin')->user())->check('admin.permission.create'))
+                @if(Gate::forUser(auth('admin')->user())->check('pv','admin.permission.create'))
                     @if($cid != 0)
                         <a href="{{ url('admin/permission') .'/'. $cid .'/create'}}" class="btn btn-success btn-sm"><i class="fa fa-plus-circle"></i> 添加子权限</a>
                     @else
@@ -98,6 +98,7 @@
                 "columns": [
                     {"data": "id","title":"ID"},
                     {"data": "name","title":"权限规则"},
+                    {"data": "uri","title":"路由地址"},
                     {"data": "label","title":"权限名称"},
                     {"data": "description","title":"权限概述"},
                     {"data": "type","title":"是否菜单"},
@@ -110,25 +111,25 @@
                         "targets": -1,
                         "render": function (data, type, row, meta) {
                             var str = '';
-                            //下级菜单
-                            if(row['cid']==0){
-                                str += '<a href="{{ url('admin/permission') }}' + '/' + row['id'] + '/list' + '" class="text-success btn-xs"><i class="fa fa-angle-double-down"></i> 下级菜单</a>';
+                            //下级权限
+                            if((row['cid']==0 && row['level'] < 2) && (row['type']==0)){
+                                str += '<a href="{{ url('admin/permission') }}' + '/' + row['id'] + '/list' + '" class="text-success btn-xs"><i class="fa fa-angle-double-down"></i> 下级权限</a>';
                             }
                             //编辑
-                            @if(Gate::forUser(auth('admin')->user())->check('admin.permission.edit'))
+                            @if(Gate::forUser(auth('admin')->user())->check('pv','admin.permission.edit'))
                                 str += '<a href="{{ url('admin/permission') }}' + '/' + row['id'] + '/edit" class="text-success btn-xs"><i class="fa fa-edit"></i> 编辑</a>';
                             @endif
-                            @if(Gate::forUser(auth('admin')->user())->check('admin.permission.show'))
+                            @if(Gate::forUser(auth('admin')->user())->check('pv','admin.permission.show'))
                                 str += '<a href="{{ url('admin/permission') }}' + '/' + row['id'] + '" class="text-success btn-xs"><i class="fa fa-file-text-o"></i> 详情</a>';
                             @endif
                             //删除
-                            @if(Gate::forUser(auth('admin')->user())->check('admin.permission.destory'))
+                            @if(Gate::forUser(auth('admin')->user())->check('pv','admin.permission.destory'))
                                 str += '<a href="javascript:;" class="text-danger btn-xs delBtn" data-attr="' + row['id'] + '"><i class="fa fa-times-circle"></i> 删除</a>';
                             @endif
                             return str;
                         }
                     },{
-                        "targets": 4,
+                        "targets": 5,
                         "render": function (data, type, row, meta) {
                             var str = '';
                             switch (data){
@@ -147,7 +148,17 @@
                         "targets": 1,
                         "render": function (data, type, row, meta) {
                             var str = '';
-                            var dataArr = data.split('|');
+                            var dataArr = data.split('#');
+                            for (var i = 0; i < dataArr.length; i++){
+                                str += dataArr[i] + '<br>';
+                            }
+                            return str;
+                        }
+                    },{
+                        "targets": 2,
+                        "render": function (data, type, row, meta) {
+                            var str = '';
+                            var dataArr = data.split('||');
                             for (var i = 0; i < dataArr.length; i++){
                                 str += dataArr[i] + '<br>';
                             }
@@ -158,10 +169,10 @@
             });
             //ajax事件-当datatable发出ajax请求前
             table.on('preXhr.dt', function (e, settings, data) {
-                @if(!$cid)
-                    var column = table.column(4);
-                    column.visible(false);
-                @endif
+                {{--@if(!$cid)--}}
+                    {{--var column = table.column(4);--}}
+                    {{--column.visible(false);--}}
+                {{--@endif--}}
                 loadShow();
                 _search_value = data.search.value;
             });
@@ -186,6 +197,7 @@
                 $('.deleteForm').attr('action','{{ url('admin/permission') }}' + '/' + _id);
                 $('.modal-delete').modal();
             })
+
         });
     </script>
 @endsection

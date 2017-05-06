@@ -27,7 +27,7 @@
             <div class="col-xs-6 col-sm-6">
             </div>
             <div class="col-xs-6 col-sm-6 text-right">
-                @if(Gate::forUser(auth('admin')->user())->check('admin.user.create'))
+                @if(Gate::forUser(auth('admin')->user())->check('pv','admin.user.create'))
                     <a href="{{ url('admin/user/create') }}" class="btn btn-success btn-sm"><i class="fa fa-plus-circle"></i> 添加用户</a>
                 @endif
             </div>
@@ -91,17 +91,17 @@
                             var userVerify = '{{ auth('admin')->user()->id == 1 }}';
                             var str = '';
                             //编辑
-                            @if(Gate::forUser(auth('admin')->user())->check('admin.user.edit'))
+                            @if(Gate::forUser(auth('admin')->user())->check('pv','admin.user.edit'))
                                 if(row['id'] != 1 || userVerify){
                                     str += '<a href="{{ url('admin/user') }}' + '/' + row['id'] + '/edit" class="text-success btn-xs"><i class="fa fa-edit"></i> 编辑</a>';
                                 }
                             @endif
-                            @if(Gate::forUser(auth('admin')->user())->check('admin.user.show'))
+                            @if(Gate::forUser(auth('admin')->user())->check('pv','admin.user.show'))
                                 str += '<a href="{{ url('admin/user') }}' + '/' + row['id'] + '" class="text-success btn-xs"><i class="fa fa-file-text-o"></i> 详情</a>';
                             @endif
 
                             //删除
-                            @if(Gate::forUser(auth('admin')->user())->check('admin.user.destory'))
+                            @if(Gate::forUser(auth('admin')->user())->check('pv','admin.user.destory'))
                                 if(row['id'] != 1 || userVerify){
                                     str += '<a href="javascript:;" data-attr="'+row['id']+'" class="text-danger btn-xs delBtn"><i class="fa fa-times-circle"></i> 删除</a>';
                                 }

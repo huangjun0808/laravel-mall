@@ -31,13 +31,17 @@ class AuthServiceProvider extends ServiceProvider
             }
         });
         $this->registerPolicies();
-        //渴求式加载(两次查询操作)
-        $permissions = Permission::with('roles')->get();
-        foreach($permissions as $permission){
-            $gate->define($permission->name, function($user) use ($permission){
-                return $user->hasPermission($permission);
-            });
-        }
+//        //渴求式加载(两次查询操作)
+//        $permissions = Permission::with('roles')->get();
+//        foreach($permissions as $permission){
+//            $gate->define($permission->name, function($user) use ($permission){
+//                return $user->hasPermission($permission);
+//            });
+//        }
+
+        $gate->define('pv', function($user, $permission){
+            return $user->hasPermission($permission);
+        });
 
     }
 }

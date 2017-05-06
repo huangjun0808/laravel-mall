@@ -22,7 +22,10 @@ class AdminUser extends Authenticatable
     //判断用户是否有某一权限
     public function hasPermission($permission){
         if(is_string($permission)){
-            $permission = AdminPermission::where('name',$permission)->first();
+            $permission = AdminPermission::where('name',$permission)
+                ->orWhere('name','like','%#'.$permission)
+                ->orWhere('name','like',$permission.'#%')
+                ->first();
             if(!$permission){
                 return false;
             }

@@ -32,12 +32,16 @@
                     日志信息 :
 
                     <div class="group-btns pull-right">
+                        @if(Gate::forUser(auth('admin')->user())->check('pv','log-viewer::logs.download'))
                         <a href="{{ route('log-viewer::logs.download', [$log->date]) }}" class="btn btn-xs btn-success">
                             <i class="fa fa-download"></i> 下载
                         </a>
+                        @endif
+                        @if(Gate::forUser(auth('admin')->user())->check('pv','log-viewer::logs.delete'))
                         <a href="#delete-log-modal" class="btn btn-xs btn-danger" data-toggle="modal">
                             <i class="fa fa-trash-o"></i> 删除
                         </a>
+                        @endif
                     </div>
                 </div>
                 <div class="panel-body">
@@ -204,7 +208,7 @@
                             location.replace("{{ route('log-viewer::logs.list') }}");
                         }
                         else {
-                            alert('OOPS ! This is a lack of coffee exception !')
+                            alert(data.msg);
                         }
                     },
                     error: function(xhr, textStatus, errorThrown) {

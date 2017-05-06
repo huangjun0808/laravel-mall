@@ -36,3 +36,9 @@
     display: inline-block;
     padding-right: 10px;
 }
+.content .callout-out{
+    position: fixed;
+    z-index: 10000;
+    width: 60%;
+    top: 55px;
+}

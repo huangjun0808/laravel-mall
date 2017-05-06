@@ -28,11 +28,17 @@ class AdminPermissionUpdateRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
             'name'=>'required|max:255',
             'label'=>'required|max:255',
-            'cid'=>'integer'
+            'cid'=>'integer',
+            'uri'=>'required',
         ];
+        $data = $this->validationData();
+        if((!isset($data['type']) || empty($data['type'])) && !$data['cid']){
+            unset($rules['uri']);
+        }
+        return $rules;
     }
 
     public function attributes()
@@ -40,6 +46,7 @@ class AdminPermissionUpdateRequest extends FormRequest
         return [
             'name'=>'权限规则',
             'label'=>'权限名称',
+            'uri'=>'路由地址',
         ];
     }
 }

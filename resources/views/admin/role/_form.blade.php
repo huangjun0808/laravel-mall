@@ -32,7 +32,7 @@
                             <div class="panel-body">
                                 @foreach($permission['children'] as $child)
                                     <label class="checkbox-inline">
-                                        <input type="checkbox" name="permission[]" value="{{$child['id']}}" {{ isset(old('permission')[0]) ? (in_array($child['id'],old('permission')) ? 'checked' : '') : ( isset($role_permissions) ? (in_array($child['id'],$role_permissions) ? 'checked' : '') : '') }} >{{$child['label']}}
+                                        <input type="checkbox" name="permission[]" value="{{$child['id']}}" {{ isset(old('permission')[0]) ? (in_array($child['id'],old('permission')) ? 'checked' : '') : ( isset($role_permissions) ? (in_array($child['id'],$role_permissions) ? 'checked' : '') : '') }} > {!! ($child['type']==1 && in_array($child['name'],$diff)) ? '<span class="label label-warning">'.$child['label'].'(一二级菜单)</span>' : ($child['type']==1 ? '<span class="label label-default">'.$child['label'].'(二级菜单)</span>' : (in_array($child['name'],$diff) ? '<span class="label label-info">'.$child['label'].'(一级菜单)</span>' : $child['label'])) !!}
                                     </label>
                                 @endforeach
                             </div>
@@ -40,6 +40,27 @@
                     </div>
                 @endif
             @endforeach
+            @if(!$otherPermissions->isEmpty())
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            其他
+                            <a class="pull-right" href="#otherCollapse" data-toggle="collapse">
+                                <i class="fa fa-angle-double-up"></i> 折叠
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="otherCollapse" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            @foreach($otherPermissions as $otherPermission)
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="permission[]" value="{{$otherPermission['id']}}" {{ isset(old('permission')[0]) ? (in_array($otherPermission['id'],old('permission')) ? 'checked' : '') : ( isset($role_permissions) ? (in_array($otherPermission['id'],$role_permissions) ? 'checked' : '') : '') }} >{!! '<span class="label label-info">'.$otherPermission['label'].'(一级菜单)</span>' !!}
+                                </label>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
 </div>

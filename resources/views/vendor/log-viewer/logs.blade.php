@@ -61,15 +61,21 @@
                                         </td>
                                     @endforeach
                                     <td class="text-left">
+                                        @if(Gate::forUser(auth('admin')->user())->check('pv','log-viewer::logs.show'))
                                         <a href="{{ route('log-viewer::logs.show', [$date]) }}" class="btn btn-xs btn-info">
                                             <i class="fa fa-search"></i>
                                         </a>
+                                        @endif
+                                        @if(Gate::forUser(auth('admin')->user())->check('pv','log-viewer::logs.download'))
                                         <a href="{{ route('log-viewer::logs.download', [$date]) }}" class="btn btn-xs btn-success">
                                             <i class="fa fa-download"></i>
                                         </a>
+                                        @endif
+                                        @if(Gate::forUser(auth('admin')->user())->check('pv','log-viewer::logs.delete'))
                                         <a href="#delete-log-modal" class="btn btn-xs btn-danger" data-log-date="{{ $date }}">
                                             <i class="fa fa-trash-o"></i>
                                         </a>
+                                        @endif
                                     </td>
                                 </tr>
                                 @endforeach
@@ -151,7 +157,7 @@
                             location.reload();
                         }
                         else {
-                            alert('AJAX ERROR ! Check the console !');
+                            alert(data.msg);
                             console.error(data);
                         }
                     },

@@ -40,6 +40,7 @@
                             {{ csrf_field() }}
                             {{ method_field('PUT') }}
                             <input type="hidden" name="id" value="{{ $id }}">
+                            <input type="hidden" name="permission[cid]" value="{{ $permission['cid'] }}">
                             @include('admin.permission._form')
                             <div class="form-group">
                                 <div class="col-sm-offset-3 col-sm-9">

@@ -33,28 +33,43 @@ class GetSystemMenu
      */
     protected function getLeftMenu(){
 
-        $routeName = starts_with(Route::currentRouteName(),'admin.') ? Route::currentRouteName() : 'admin.' . Route::currentRouteName();
+        $routeName = Route::currentRouteName();
         $url = URL::getRequest()->path();
+
         $table = Cache::store('file')->rememberForever('leftMenus', function(){
-            return Permission::where('cid', 0)
-                ->with(['children' => function($query){
+            //查找所有菜单
+            return Permission::where('cid', 0)->orWhere(function($query){
+                    $query->where('type', 1)->where('cid', 0);
+                })->with(['children' => function($query){
                     $query->where('type', 1);
                 }])->get()->toArray();
         });
         foreach ($table as $key => &$item) {
-            foreach ($item['children'] as $keyChild => &$child) {
-                if(!Gate::forUser(auth('admin')->user())->check($child['name'])){
-                    unset($item['children'][$keyChild]);
-                    continue;
+            if($item['type'] == 1){
+                if(!Gate::forUser(auth('admin')->user())->check('pv',$item['name'])){
+                    unset($table[$key]);
                 }
-                if($child['name'] == $routeName || $this->compare($child['name'], $url)){
-                    $child['active'] = 1;
+                //为了保险起见去除一级权限为菜单的子菜单
+                unset($table[$key]['children']);
+            }else{
+                foreach (isset($item['children']) ? $item['children'] : [] as $keyChild => &$child) {
+                    if(!Gate::forUser(auth('admin')->user())->check('pv',$child['name'])){
+                        unset($item['children'][$keyChild]);
+                        continue;
+                    }
+                    if($child['name'] == $routeName){
+                        $item['children'][$keyChild]['active'] = 1;
+                        $item['active'] = 1;
+                    }
+                }
+                if($item['name'] == $routeName){
                     $item['active'] = 1;
                 }
-            }
-            if(!$item['children']){
-                unset($table[$key]);
-                continue;
+                //一级菜单的子权限里没有作为菜单的权限去除
+                if(!$item['children']){
+                    unset($table[$key]);
+                    continue;
+                }
             }
         }
         return $table;

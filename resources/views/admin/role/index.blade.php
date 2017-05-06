@@ -27,7 +27,7 @@
             <div class="col-xs-6 col-sm-6">
             </div>
             <div class="col-xs-6 col-sm-6 text-right">
-                @if(Gate::forUser(auth('admin')->user())->check('admin.role.create'))
+                @if(Gate::forUser(auth('admin')->user())->check('pv','admin.role.create'))
                     <a href="{{ url('admin/role/create') }}" class="btn btn-success btn-sm"><i class="fa fa-plus-circle"></i> 添加角色</a>
                 @endif
             </div>
@@ -94,14 +94,14 @@
                         "render": function (data, type, row, meta) {
                             var str = '';
                             //编辑
-                            @if(Gate::forUser(auth('admin')->user())->check('admin.role.edit'))
+                            @if(Gate::forUser(auth('admin')->user())->check('pv','admin.role.edit'))
                                 str += '<a href="{{ url('admin/role') }}' + '/' + row['id'] + '/edit" class="text-success btn-xs"><i class="fa fa-edit"></i> 编辑</a>';
                             @endif
-                            @if(Gate::forUser(auth('admin')->user())->check('admin.role.show'))
+                            @if(Gate::forUser(auth('admin')->user())->check('pv','admin.role.show'))
                                 str += '<a href="{{ url('admin/role') }}' + '/' + row['id'] + '" class="text-success btn-xs"><i class="fa fa-file-text-o"></i> 详情</a>';
                             @endif
                             //删除
-                            @if(Gate::forUser(auth('admin')->user())->check('admin.role.destory'))
+                            @if(Gate::forUser(auth('admin')->user())->check('pv','admin.role.destory'))
                                 str += '<a href="javascript:;" data-attr="'+row['id']+'" class="text-danger btn-xs delBtn"><i class="fa fa-times-circle"></i> 删除</a>';
                             @endif
 

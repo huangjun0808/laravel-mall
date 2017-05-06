@@ -32,11 +32,17 @@ class AdminPermissionCreateRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'name'=>'required|unique:admin_permission|max:255',
+        $rules = [
+            'name'=>'required|max:255',
             'label'=>'required|max:255',
-            'cid'=>'integer'
+            'cid'=>'integer',
+            'uri'=>'required',
         ];
+        $data = $this->validationData();
+        if((!isset($data['type']) || empty($data['type'])) && !$data['cid']){
+            unset($rules['uri']);
+        }
+        return $rules;
     }
 
     /**
@@ -49,6 +55,7 @@ class AdminPermissionCreateRequest extends FormRequest
         return [
             'name'=>'权限规则',
             'label'=>'权限名称',
+            'uri'=>'路由地址',
         ];
     }
 }

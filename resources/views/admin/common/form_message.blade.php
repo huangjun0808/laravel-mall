@@ -11,5 +11,5 @@
 <script>
     setTimeout(function () {
         $(".callout-out").fadeOut();
-    },2000);
+    },5000);
 </script>

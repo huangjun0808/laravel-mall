@@ -63,7 +63,22 @@ class RoleController extends Controller
         $permissions = Permission::where('cid', 0)->with(['children'=>function($query){
                 $query->orderBy('name','desc');
             }])->get();
+        $otherPermissions = Permission::where('cid', 0)->where('type',1)->get();
+        //去除重复项
+        $implode_children = $permissions->map(function($item, $map){
+            return $item->children->implode('name',',');
+        });
+        $arr_children = explode(',',implode(',',$implode_children->all()));
+        $arr_other = explode(',',$otherPermissions->implode('name',','));
+        $diff = array_intersect($arr_children, $arr_other);
+        foreach($otherPermissions as $key => $otherPermission){
+            if(in_array($otherPermission['name'],$diff)){
+                $otherPermissions->forget($key);
+            }
+        }
         $data['permissions'] = $permissions;
+        $data['otherPermissions'] = $otherPermissions;
+        $data['diff'] = $diff;
         return view('admin.role.create',$data);
     }
 
@@ -127,7 +142,22 @@ class RoleController extends Controller
         $permissions = Permission::where('cid', 0)->with(['children'=>function($query){
             $query->orderBy('name','desc');
         }])->get();
+        $otherPermissions = Permission::where('cid', 0)->where('type',1)->get();
+        //去除重复项
+        $implode_children = $permissions->map(function($item, $map){
+            return $item->children->implode('name',',');
+        });
+        $arr_children = explode(',',implode(',',$implode_children->all()));
+        $arr_other = explode(',',$otherPermissions->implode('name',','));
+        $diff = array_intersect($arr_children, $arr_other);
+        foreach($otherPermissions as $key => $otherPermission){
+            if(in_array($otherPermission['name'],$diff)){
+                $otherPermissions->forget($key);
+            }
+        }
+        $data['otherPermissions'] = $otherPermissions;
         $data['permissions'] = $permissions;
+        $data['diff'] = $diff;
         $role_permissions = $role->permissions->toArray();
         foreach($role_permissions as $role_permission){
             $data['role_permissions'][] = $role_permission['id'];

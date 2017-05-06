@@ -9,6 +9,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\AdminPermission as Permission;
 use Illuminate\Support\Facades\DB;
+use Log,Route;
 
 class PermissionController extends Controller
 {
@@ -67,8 +68,6 @@ class PermissionController extends Controller
         $data['cid'] = $cid;
         $data['permission'] = null;
         return view('admin.permission.create',$data);
-
-//        dd(old('permission'));
     }
 
     /**
@@ -80,6 +79,28 @@ class PermissionController extends Controller
     public function store(Requests\AdminPermissionCreateRequest $request)
     {
         $data = $request->input('permission');
+        $data['name'] = trim($data['name']);
+        $data['uri'] = trim($data['uri']);
+        $parent_permission = Permission::where('id',$data['cid'])->first();
+        if(!$parent_permission){
+            $data['level'] = 1;
+            if(isset($data['type']) && empty($data['type'])){
+                unset($data['uri']);
+            }
+        }else{
+            if($parent_permission['level'] == 1){
+                $data['level'] = 2;
+            }elseif($parent_permission['level'] == 2){
+                return redirect()->back()->withInput()->with('error','二级权限下不能再添加子权限!');
+            }
+            if($parent_permission['type']==1){
+                return redirect()->back()->withInput()->with('error','作为菜单的权限下不能再添加子权限');
+            }
+        }
+        $isRoute = $this->validate_route(trim($data['name']));
+        if(((!$parent_permission && $data['type']==1) || $parent_permission) && $isRoute!==true){
+            return redirect()->back()->withInput()->with('error','该权限规则【'.$isRoute.'】系统未定义');
+        }
         try{
             $permission = Permission::create($data);
             if($permission->cid){
@@ -90,7 +111,8 @@ class PermissionController extends Controller
             event(new MenuChangeEvent());
             return redirect($redirect_url)->with('success','添加成功 !');
         }catch(\Exception $e){
-            return redirect()->back()->with('error','系统出错,添加失败 !');
+            Log::warning($e->getMessage());
+            return redirect()->back()->withInput()->with('error','系统出错,添加失败 !');
         }
     }
 
@@ -141,7 +163,26 @@ class PermissionController extends Controller
     {
         $data = $request->input('permission');
         $permission = Permission::find($id);
+        if((!isset($data['type']) || empty($data['type'])) && !$data['cid']){
+            $data['uri'] = '';
+        }
+        unset($data['cid']);
+        if($data['type']==1){
+            $child_permissions = $permission->children;
+            if(!$child_permissions->isEmpty()){
+                return redirect()->back()->withInput()->with('error','作为菜单的权限下不能拥有子权限');
+            }
+        }
+        $isRoute = $this->validate_route(trim($data['name']));
+        if(((!$permission['cid'] && $data['type']==1) || $permission['cid']) && $isRoute!==true){
+            return redirect()->back()->withInput()->with('error','权限规则【'.$isRoute.'】系统未定义');
+        }
+        if($data['type']==1 && strpos($data['uri'],'{') !== false && strpos($data['uri'],'}') !== false){
+            return redirect()->back()->withInput()->with('error','路由地址包含参数的权限规则不能作为菜单');
+        }
         try{
+            $data['name'] = trim($data['name']);
+            $data['uri'] = trim($data['uri']);
             $permission->update($data);
             if($permission->cid){
                 $redirect_url = 'admin/permission/'.$permission->cid.'/list';
@@ -151,6 +192,7 @@ class PermissionController extends Controller
             event(new MenuChangeEvent());
             return redirect($redirect_url)->with('success','更新成功 !');
         }catch(\Exception $e){
+            Log::warning($e->getMessage());
             return redirect()->back()->with('error','系统出错,更新失败 !');
         }
 
@@ -183,7 +225,18 @@ class PermissionController extends Controller
             return redirect($redirect_url)->with('success','删除成功 !');
         }catch(\Exception $e){
             DB::rollback();
+            Log::warning($e->getMessage());
             return redirect()->back()->with('error','系统出错,删除失败');
         }
+    }
+
+    protected function validate_route($name){
+        $name = explode('#', $name);
+        foreach($name as $item){
+            if(!Route::has(trim($item))){
+                return $item;
+            }
+        }
+        return true;
     }
 }
